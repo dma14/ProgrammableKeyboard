@@ -109,9 +109,6 @@
 // From module: USB Device HID Keyboard (Composite Device)
 #include <udi_hid_kbd.h>
 
-// From module: USB Device HID Mouse (Composite Device)
-#include <udi_hid_mouse.h>
-
 // From module: USB Device MSC (Composite Device)
 #include <udi_msc.h>
 

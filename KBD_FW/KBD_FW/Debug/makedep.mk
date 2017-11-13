@@ -18,8 +18,6 @@ src\ASF\common\services\usb\class\composite\device\udi_composite_desc.c
 
 src\ASF\common\services\usb\class\hid\device\kbd\udi_hid_kbd.c
 
-src\ASF\common\services\usb\class\hid\device\mouse\udi_hid_mouse.c
-
 src\ASF\common\services\usb\class\hid\device\udi_hid.c
 
 src\ASF\common\services\usb\class\msc\device\udi_msc.c

@@ -62,18 +62,6 @@ bool main_msc_enable(void);
 void main_msc_disable(void);
 
 /*! \brief Called by HID interface
- * Callback running when USB Host enable mouse interface
- *
- * \retval true if mouse startup is ok
- */
-bool main_mouse_enable(void);
-
-/*! \brief Called by HID interface
- * Callback running when USB Host disable mouse interface
- */
-void main_mouse_disable(void);
-
-/*! \brief Called by HID interface
  * Callback running when USB Host enable keyboard interface
  *
  * \retval true if keyboard startup is ok

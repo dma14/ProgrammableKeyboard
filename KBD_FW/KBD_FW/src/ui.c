@@ -95,32 +95,77 @@ static struct {
 	{false,false,0}, // No key (= SEQUENCE_PERIOD delay)
 	{false,false,0}, // No key (= SEQUENCE_PERIOD delay)
 	{false,false,0}, // No key (= SEQUENCE_PERIOD delay)
-	// Display "Atmel "
+	// Display "Adjustable keyboard, coming soon!"
 	{true,true,HID_MODIFIER_RIGHT_SHIFT}, // Enable Maj
 	{false,true,HID_A},
 	{false,false,HID_A},
 	{true,false,HID_MODIFIER_RIGHT_SHIFT}, // Disable Maj
+	{false,true,HID_D},
+	{false,false,HID_D},
+	{false,true,HID_J},
+	{false,false,HID_J},
+	{false,true,HID_U},
+	{false,false,HID_U},
+	{false,true,HID_S},
+	{false,false,HID_S},
 	{false,true,HID_T},
 	{false,false,HID_T},
-	{false,true,HID_M},
-	{false,false,HID_M},
-	{false,true,HID_E},
-	{false,false,HID_E},
+	{false,true,HID_A},
+	{false,false,HID_A},
+	{false,true,HID_B},
+	{false,false,HID_B},
 	{false,true,HID_L},
 	{false,false,HID_L},
+	{false,true,HID_E},
+	{false,false,HID_E},
 	{false,true,HID_SPACEBAR},
 	{false,false,HID_SPACEBAR},
-	// Display "ARM "
-	{false,true,HID_CAPS_LOCK}, // Enable caps lock
-	{false,false,HID_CAPS_LOCK},
+	{false,true,HID_K},
+	{false,false,HID_K},
+	{false,true,HID_E},
+	{false,false,HID_E},
+	{false,true,HID_Y},
+	{false,false,HID_Y},
+	{false,true,HID_B},
+	{false,false,HID_B},
+	{false,true,HID_O},
+	{false,false,HID_O},
 	{false,true,HID_A},
 	{false,false,HID_A},
 	{false,true,HID_R},
 	{false,false,HID_R},
+	{false,true,HID_D},
+	{false,false,HID_D},
+	{false,true,HID_COMMA},
+	{false,false,HID_COMMA},
+	{false,true,HID_SPACEBAR},
+	{false,false,HID_SPACEBAR},
+	{false,true,HID_C},
+	{false,false,HID_C},
+	{false,true,HID_O},
+	{false,false,HID_O},
 	{false,true,HID_M},
 	{false,false,HID_M},
-	{false,true,HID_CAPS_LOCK}, // Disable caps lock
-	{false,false,HID_CAPS_LOCK},
+	{false,true,HID_I},
+	{false,false,HID_I},
+	{false,true,HID_N},
+	{false,false,HID_N},
+	{false,true,HID_G},
+	{false,false,HID_G},
+	{false,true,HID_SPACEBAR},
+	{false,false,HID_SPACEBAR},
+	{false,true,HID_S},
+	{false,false,HID_S},
+	{false,true,HID_O},
+	{false,false,HID_O},
+	{false,true,HID_O},
+	{false,false,HID_O},
+	{false,true,HID_N},
+	{false,false,HID_N},
+	{true,true,HID_MODIFIER_RIGHT_SHIFT}, // Enable Maj
+	{false,true,HID_1},
+	{false,false,HID_1},
+	{true,false,HID_MODIFIER_RIGHT_SHIFT}, // Disable Maj
 };
 
 // Wakeup pin is PA15 (fast wakeup 14)
@@ -130,9 +175,6 @@ static struct {
 #define  WAKEUP_PIO_ID   (ID_PIOA)
 #define  WAKEUP_PIO_MASK (PIO_PA15)
 #define  WAKEUP_PIO_ATTR (PIO_INPUT | PIO_PULLUP | PIO_DEBOUNCE | PIO_IT_LOW_LEVEL)
-
-static uint8_t move_dir = MOVE_UP;
-static int32_t move_count = MOUSE_MOVE_COUNT;
 
 // Interrupt on "pin change" from PA15 to do wakeup on USB
 // Note:
@@ -265,42 +307,7 @@ void ui_process(uint16_t framenumber)
 		return;
 	}
 
-	// Uses buttons to move mouse
-	if (!gpio_pin_is_high(GPIO_PUSH_BUTTON_1)) {
-		move_count --;
-		switch(move_dir) {
-		case MOVE_UP:
-			udi_hid_mouse_moveY(-MOUSE_MOVE_RANGE);
-			if (move_count < 0) {
-				move_dir = MOVE_RIGHT;
-				move_count = MOUSE_MOVE_COUNT;
-			}
-			break;
-		case MOVE_RIGHT:
-			udi_hid_mouse_moveX(+MOUSE_MOVE_RANGE);
-			if (move_count < 0) {
-				move_dir = MOVE_DOWN;
-				move_count = MOUSE_MOVE_COUNT;
-			}
-			break;
-		case MOVE_DOWN:
-			udi_hid_mouse_moveY(+MOUSE_MOVE_RANGE);
-			if (move_count < 0) {
-				move_dir = MOVE_LEFT;
-				move_count = MOUSE_MOVE_COUNT;
-			}
-			break;
-		case MOVE_LEFT:
-			udi_hid_mouse_moveX(-MOUSE_MOVE_RANGE);
-			if (move_count < 0) {
-				move_dir = MOVE_UP;
-				move_count = MOUSE_MOVE_COUNT;
-			}
-			break;
-		}
-	}
-	
-	// Both buttons down to send keys sequence
+	// Button down to send keys sequence
 	b_btn_state = (!gpio_pin_is_high(GPIO_PUSH_BUTTON_1));
 	if (b_btn_state != btn_last_state) {
 		btn_last_state = b_btn_state;
@@ -364,7 +371,6 @@ void ui_kbd_led(uint8_t value)
  * - LED D9 blinks when USB host has checked and enabled HID and MSC interface
  * - LED D10 is on during read/write operation
  * - No mouse buttons are linked
- * - SW1(BOARD REV A) or BP2(BOARD REV B) is used to move mouse around
  * - SW1(BOARD REV A) or BP2(BOARD REV B) down opens a notepad application on Windows O.S.
  *   and sends key sequence "Atmel ARM"
  * - Only a low level on J13.PA15 will generate a wakeup to USB Host in remote wakeup mode.

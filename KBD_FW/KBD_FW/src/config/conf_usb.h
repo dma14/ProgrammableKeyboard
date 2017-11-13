@@ -68,7 +68,7 @@
 
 //! USB Device string definitions (Optional)
 #define  USB_DEVICE_MANUFACTURE_NAME      "ATMEL ASF"
-#define  USB_DEVICE_PRODUCT_NAME          "HID Mouse, keyboard, CDC and MSC"
+#define  USB_DEVICE_PRODUCT_NAME          "HID keyboard, CDC and MSC"
 #define  USB_DEVICE_SERIAL_NAME           "123123123123" // Disk SN for MSC
 
 /**
@@ -112,8 +112,8 @@
 //! Control endpoint size
 #define  USB_DEVICE_EP_CTRL_SIZE       64
 
-//! Two interfaces for this device (CDC + MSC + HID mouse + HID keyboard)
-#define  USB_DEVICE_NB_INTERFACE       5
+//! Two interfaces for this device (CDC + MSC + HID keyboard)
+#define  USB_DEVICE_NB_INTERFACE       4
 
 //! 7 endpoints used by HID mouse, HID keyboard, CDC and MSC interfaces
 //! but an IN and OUT endpoints can be defined with the same number on XMEGA, thus 5
@@ -124,7 +124,7 @@
 // (2 | USB_EP_DIR_OUT) // MSC OUT
 // (3 | USB_EP_DIR_IN)  // HID mouse report
 // (4 | USB_EP_DIR_IN)  // HID keyboard report
-#define  USB_DEVICE_MAX_EP             7
+#define  USB_DEVICE_MAX_EP             6
 #  if SAM3XA && defined(USB_DEVICE_HS_SUPPORT)
 // In HS mode, size of bulk endpoints are 512
 // If CDC and MSC endpoints all uses 2 banks, DPRAM is not enough: 4 bulk
@@ -179,9 +179,9 @@
  * @{
  */
 //! Endpoint numbers definition
-#define  UDI_CDC_COMM_EP_0             (7 | USB_EP_DIR_IN)  // Notify endpoint
-#define  UDI_CDC_DATA_EP_IN_0          (6 | USB_EP_DIR_IN)  // TX
-#define  UDI_CDC_DATA_EP_OUT_0         (5 | USB_EP_DIR_OUT) // RX
+#define  UDI_CDC_COMM_EP_0             (6 | USB_EP_DIR_IN)  // Notify endpoint
+#define  UDI_CDC_DATA_EP_IN_0          (5 | USB_EP_DIR_IN)  // TX
+#define  UDI_CDC_DATA_EP_OUT_0         (4 | USB_EP_DIR_OUT) // RX
 
 //! Interface numbers
 #define  UDI_CDC_COMM_IFACE_NUMBER_0   0
@@ -222,32 +222,6 @@
 //@}
 //@}
 
-
-/**
- * Configuration of HID Mouse interface
- * @{
- */
-//! Interface callback definition
-#define  UDI_HID_MOUSE_ENABLE_EXT()       main_mouse_enable()
-#define  UDI_HID_MOUSE_DISABLE_EXT()      main_mouse_disable()
-
-//! Enable id string of interface to add an extra USB string
-#define  UDI_HID_MOUSE_STRING_ID          6
-
-/**
- * USB HID Mouse low level configuration
- * In standalone these configurations are defined by the HID Mouse module.
- * For composite device, these configuration must be defined here
- * @{
- */
-//! Endpoint numbers definition
-#define  UDI_HID_MOUSE_EP_IN           (3 | USB_EP_DIR_IN)
-
-//! Interface number
-#define  UDI_HID_MOUSE_IFACE_NUMBER    3
-//@}
-//@}
-
 /**
  * Configuration of HID Keyboard interface
  * @{
@@ -258,7 +232,7 @@
 #define  UDI_HID_KBD_CHANGE_LED(value)  ui_kbd_led(value)
 
 //! Enable id string of interface to add an extra USB string
-#define  UDI_HID_KBD_STRING_ID            7
+#define  UDI_HID_KBD_STRING_ID            6
 
 /**
  * USB HID Keyboard low level configuration
@@ -267,10 +241,10 @@
  * @{
  */
 //! Endpoint numbers definition
-#define  UDI_HID_KBD_EP_IN           (4 | USB_EP_DIR_IN)
+#define  UDI_HID_KBD_EP_IN           (3 | USB_EP_DIR_IN)
 
 //! Interface number
-#define  UDI_HID_KBD_IFACE_NUMBER    4
+#define  UDI_HID_KBD_IFACE_NUMBER    3
 //@}
 //@}
 
@@ -287,7 +261,6 @@
 	udi_cdc_comm_desc_t  udi_cdc_comm; \
 	udi_cdc_data_desc_t  udi_cdc_data; \
 	udi_msc_desc_t       udi_msc; \
-	udi_hid_mouse_desc_t udi_hid_mouse; \
 	udi_hid_kbd_desc_t   udi_hid_kbd
 
 //! USB Interfaces descriptor value for Full Speed
@@ -296,7 +269,6 @@
 	.udi_cdc_comm  = UDI_CDC_COMM_DESC_0, \
 	.udi_cdc_data  = UDI_CDC_DATA_DESC_0_FS, \
 	.udi_msc       = UDI_MSC_DESC_FS, \
-	.udi_hid_mouse = UDI_HID_MOUSE_DESC, \
 	.udi_hid_kbd   = UDI_HID_KBD_DESC
 
 //! USB Interfaces descriptor value for High Speed
@@ -305,7 +277,6 @@
 	.udi_cdc_comm  = UDI_CDC_COMM_DESC_0, \
 	.udi_cdc_data  = UDI_CDC_DATA_DESC_0_HS, \
 	.udi_msc       = UDI_MSC_DESC_HS, \
-	.udi_hid_mouse = UDI_HID_MOUSE_DESC, \
 	.udi_hid_kbd   = UDI_HID_KBD_DESC
 
 //! USB Interface APIs
@@ -313,7 +284,6 @@
 	&udi_api_cdc_comm, \
 	&udi_api_cdc_data, \
 	&udi_api_msc, \
-	&udi_api_hid_mouse, \
 	&udi_api_hid_kbd
 //@}
 
@@ -327,7 +297,6 @@
 //! The includes of classes and other headers must be done at the end of this file to avoid compile error
 #include "udi_cdc.h"
 #include "udi_msc.h"
-#include "udi_hid_mouse.h"
 #include "udi_hid_kbd.h"
 #include "uart.h"
 #include "main.h"

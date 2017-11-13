@@ -116,7 +116,6 @@ C_SRCS +=  \
 ../src/ASF/common/services/usb/class/cdc/device/udi_cdc.c \
 ../src/ASF/common/services/usb/class/composite/device/udi_composite_desc.c \
 ../src/ASF/common/services/usb/class/hid/device/kbd/udi_hid_kbd.c \
-../src/ASF/common/services/usb/class/hid/device/mouse/udi_hid_mouse.c \
 ../src/ASF/common/services/usb/class/hid/device/udi_hid.c \
 ../src/ASF/common/services/usb/class/msc/device/udi_msc.c \
 ../src/ASF/common/services/usb/udc/udc.c \
@@ -154,7 +153,6 @@ src/ASF/common/services/storage/ctrl_access/ctrl_access.o \
 src/ASF/common/services/usb/class/cdc/device/udi_cdc.o \
 src/ASF/common/services/usb/class/composite/device/udi_composite_desc.o \
 src/ASF/common/services/usb/class/hid/device/kbd/udi_hid_kbd.o \
-src/ASF/common/services/usb/class/hid/device/mouse/udi_hid_mouse.o \
 src/ASF/common/services/usb/class/hid/device/udi_hid.o \
 src/ASF/common/services/usb/class/msc/device/udi_msc.o \
 src/ASF/common/services/usb/udc/udc.o \
@@ -185,7 +183,6 @@ src/ASF/common/services/storage/ctrl_access/ctrl_access.o \
 src/ASF/common/services/usb/class/cdc/device/udi_cdc.o \
 src/ASF/common/services/usb/class/composite/device/udi_composite_desc.o \
 src/ASF/common/services/usb/class/hid/device/kbd/udi_hid_kbd.o \
-src/ASF/common/services/usb/class/hid/device/mouse/udi_hid_mouse.o \
 src/ASF/common/services/usb/class/hid/device/udi_hid.o \
 src/ASF/common/services/usb/class/msc/device/udi_msc.o \
 src/ASF/common/services/usb/udc/udc.o \
@@ -216,7 +213,6 @@ src/ASF/common/services/storage/ctrl_access/ctrl_access.d \
 src/ASF/common/services/usb/class/cdc/device/udi_cdc.d \
 src/ASF/common/services/usb/class/composite/device/udi_composite_desc.d \
 src/ASF/common/services/usb/class/hid/device/kbd/udi_hid_kbd.d \
-src/ASF/common/services/usb/class/hid/device/mouse/udi_hid_mouse.d \
 src/ASF/common/services/usb/class/hid/device/udi_hid.d \
 src/ASF/common/services/usb/class/msc/device/udi_msc.d \
 src/ASF/common/services/usb/udc/udc.d \
@@ -247,7 +243,6 @@ src/ASF/common/services/storage/ctrl_access/ctrl_access.d \
 src/ASF/common/services/usb/class/cdc/device/udi_cdc.d \
 src/ASF/common/services/usb/class/composite/device/udi_composite_desc.d \
 src/ASF/common/services/usb/class/hid/device/kbd/udi_hid_kbd.d \
-src/ASF/common/services/usb/class/hid/device/mouse/udi_hid_mouse.d \
 src/ASF/common/services/usb/class/hid/device/udi_hid.d \
 src/ASF/common/services/usb/class/msc/device/udi_msc.d \
 src/ASF/common/services/usb/udc/udc.d \
@@ -284,8 +279,6 @@ LINKER_SCRIPT_DEP+=  \
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 
@@ -393,13 +386,6 @@ src/ASF/common/services/usb/class/composite/device/%.o: ../src/ASF/common/servic
 	
 
 src/ASF/common/services/usb/class/hid/device/kbd/%.o: ../src/ASF/common/services/usb/class/hid/device/kbd/%.c
-	@echo Building file: $<
-	@echo Invoking: ARM/GNU C Compiler : 6.2.1
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM4S16C__ -DDEBUG -DBOARD=SAM4S_XPLAINED -DVIRTUAL_MEMORY_ENABLE -DARM_MATH_CM4=true -Dprintf=iprintf -DUDD_ENABLE -Dscanf=iscanf -DACCESS_USB_ENABLED -D__SAM4S16C__  -I"../src/ASF/common/components/memory/virtual_mem" -I"../src/ASF/common/services/storage/ctrl_access" -I"../src" -I"../src/ASF/sam/drivers/usart" -I"../src/ASF/common/services/clock" -I"../src/ASF/sam/drivers/pmc" -I"../src/ASF/sam/utils" -I"../src/ASF/sam/utils/header_files" -I"../src/ASF/sam/utils/preprocessor" -I"../src/ASF/thirdparty/CMSIS/Include" -I"../src/ASF/thirdparty/CMSIS/Lib/GCC" -I"../src/ASF/common/utils" -I"../src/ASF/sam/utils/cmsis/sam4s/include" -I"../src/ASF/common/services/sleepmgr" -I"../src/ASF/common/services/usb/class/cdc/device" -I"../src/ASF/common/services/usb/class/cdc" -I"../src/ASF/common/services/usb/class/composite/device" -I"../src/ASF/common/services/usb/udc" -I"../src/ASF/sam/drivers/udp" -I"../src/ASF/common/services/ioport" -I"../src/ASF/sam/drivers/matrix" -I"../src/ASF/sam/drivers/pio" -I"../src/ASF/common/services/usb" -I"../src/ASF/common/services/usb/class/hid/device/kbd" -I"../src/ASF/common/services/usb/class/hid/device" -I"../src/ASF/common/services/usb/class/hid" -I"../src/ASF/common/services/usb/class/hid/device/mouse" -I"../src/ASF/common/services/usb/class/msc/device" -I"../src/ASF/common/services/usb/class/msc" -I"../src/ASF/sam/boards" -I"../src/ASF/sam/boards/sam4s_xplained" -I"../src/ASF/common/boards" -I"../src/ASF/common/services/gpio" -I"../src/ASF/sam/drivers/ebi/smc" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m4 -c -pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-src/ASF/common/services/usb/class/hid/device/mouse/%.o: ../src/ASF/common/services/usb/class/hid/device/mouse/%.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.2.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM4S16C__ -DDEBUG -DBOARD=SAM4S_XPLAINED -DVIRTUAL_MEMORY_ENABLE -DARM_MATH_CM4=true -Dprintf=iprintf -DUDD_ENABLE -Dscanf=iscanf -DACCESS_USB_ENABLED -D__SAM4S16C__  -I"../src/ASF/common/components/memory/virtual_mem" -I"../src/ASF/common/services/storage/ctrl_access" -I"../src" -I"../src/ASF/sam/drivers/usart" -I"../src/ASF/common/services/clock" -I"../src/ASF/sam/drivers/pmc" -I"../src/ASF/sam/utils" -I"../src/ASF/sam/utils/header_files" -I"../src/ASF/sam/utils/preprocessor" -I"../src/ASF/thirdparty/CMSIS/Include" -I"../src/ASF/thirdparty/CMSIS/Lib/GCC" -I"../src/ASF/common/utils" -I"../src/ASF/sam/utils/cmsis/sam4s/include" -I"../src/ASF/common/services/sleepmgr" -I"../src/ASF/common/services/usb/class/cdc/device" -I"../src/ASF/common/services/usb/class/cdc" -I"../src/ASF/common/services/usb/class/composite/device" -I"../src/ASF/common/services/usb/udc" -I"../src/ASF/sam/drivers/udp" -I"../src/ASF/common/services/ioport" -I"../src/ASF/sam/drivers/matrix" -I"../src/ASF/sam/drivers/pio" -I"../src/ASF/common/services/usb" -I"../src/ASF/common/services/usb/class/hid/device/kbd" -I"../src/ASF/common/services/usb/class/hid/device" -I"../src/ASF/common/services/usb/class/hid" -I"../src/ASF/common/services/usb/class/hid/device/mouse" -I"../src/ASF/common/services/usb/class/msc/device" -I"../src/ASF/common/services/usb/class/msc" -I"../src/ASF/sam/boards" -I"../src/ASF/sam/boards/sam4s_xplained" -I"../src/ASF/common/boards" -I"../src/ASF/common/services/gpio" -I"../src/ASF/sam/drivers/ebi/smc" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m4 -c -pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
