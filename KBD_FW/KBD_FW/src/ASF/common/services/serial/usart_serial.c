@@ -1,9 +1,11 @@
 /**
+ *
  * \file
  *
- * \brief UART functions
+ * \brief USART Serial driver functions.
  *
- * Copyright (c) 2009-2015 Atmel Corporation. All rights reserved.
+ *
+ * Copyright (c) 2010-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -43,30 +45,43 @@
 /*
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
+#include "serial.h"
 
-#ifndef _UART_H_
-#define _UART_H_
-#include "ASF/sam/drivers/uart/uart.h"
-#include "ASF/common/services/usb/class/cdc/usb_protocol_cdc.h"
-
-
-/*! \brief Called by CDC interface
- * Callback running when CDC device have received data
- */
-void uart_rx_notify(uint8_t port);
-
-/*! \brief Configures communication line
+/**
+ * \brief Send a sequence of bytes to USART device
  *
- * \param cfg      line configuration
+ * \param usart  Base address of the USART instance.
+ * \param data   Data buffer to read
+ * \param len    Length of data
+ *
  */
-void uart_config(uint8_t port, usb_cdc_line_coding_t * cfg);
+status_code_t usart_serial_write_packet(usart_if usart, const uint8_t *data,
+		size_t len)
+{
+	while (len) {
+		usart_serial_putchar(usart, *data);
+		len--;
+		data++;
+	}
+	return STATUS_OK;
+}
 
-/*! \brief Opens communication line
+
+/**
+ * \brief Receive a sequence of bytes from USART device
+ *
+ * \param usart  Base address of the USART instance.
+ * \param data   Data buffer to write
+ * \param len    Length of data
+ *
  */
-void uart_open(uint8_t port);
-
-/*! \brief Closes communication line
- */
-void uart_close(uint8_t port);
-
-#endif // _UART_H_
+status_code_t usart_serial_read_packet(usart_if usart, uint8_t *data,
+		size_t len)
+{
+	while (len) {
+		usart_serial_getchar(usart, data);
+		len--;
+		data++;
+	}
+	return STATUS_OK;
+}

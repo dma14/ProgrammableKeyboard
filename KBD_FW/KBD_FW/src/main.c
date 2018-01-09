@@ -45,6 +45,7 @@
  */
 
 #include <asf.h>
+#include "stdio_serial.h"
 #include "conf_usb.h"
 #include "ui.h"
 #include "uart.h"
@@ -52,6 +53,33 @@
 static volatile bool main_b_keyboard_enable = false;
 static volatile bool main_b_msc_enable = false;
 static volatile bool main_b_cdc_enable = false;
+
+// [main_tc_configure]
+
+/**
+ *  Configure UART console.
+ */
+// [main_console_configure]
+static void configure_console(void)
+{
+	const usart_serial_options_t uart_serial_options = {
+		.baudrate = CONF_UART_BAUDRATE,
+#ifdef CONF_UART_CHAR_LENGTH
+		.charlength = CONF_UART_CHAR_LENGTH,
+#endif
+		.paritytype = CONF_UART_PARITY,
+#ifdef CONF_UART_STOP_BITS
+		.stopbits = CONF_UART_STOP_BITS,
+#endif
+	};
+
+	/* Configure console UART. */
+	sysclk_enable_peripheral_clock(CONSOLE_UART_ID);
+	stdio_serial_init(CONF_UART, &uart_serial_options);
+}
+
+// [main_console_configure]
+
 
 /*! \brief Main function. Execution starts here.
  */
@@ -75,6 +103,9 @@ int main(void)
 
 	// Start USB stack to authorize VBus monitoring
 	udc_start();
+	
+	// Configure UART Console
+	configure_console();
 
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt

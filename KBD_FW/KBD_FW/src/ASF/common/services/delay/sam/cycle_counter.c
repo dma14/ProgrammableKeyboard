@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief UART functions
+ * \brief ARM functions for busy-wait delay loops
  *
- * Copyright (c) 2009-2015 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2012-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,29 +44,18 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _UART_H_
-#define _UART_H_
-#include "ASF/sam/drivers/uart/uart.h"
-#include "ASF/common/services/usb/class/cdc/usb_protocol_cdc.h"
+#include "cycle_counter.h"
 
+// Delay loop is put to SRAM so that FWS will not affect delay time
+OPTIMIZE_HIGH
+RAMFUNC
+void portable_delay_cycles(unsigned long n)
+{
+	UNUSED(n);
 
-/*! \brief Called by CDC interface
- * Callback running when CDC device have received data
- */
-void uart_rx_notify(uint8_t port);
-
-/*! \brief Configures communication line
- *
- * \param cfg      line configuration
- */
-void uart_config(uint8_t port, usb_cdc_line_coding_t * cfg);
-
-/*! \brief Opens communication line
- */
-void uart_open(uint8_t port);
-
-/*! \brief Closes communication line
- */
-void uart_close(uint8_t port);
-
-#endif // _UART_H_
+	__asm (
+		"loop: DMB	\n"
+		"SUBS R0, R0, #1  \n"
+		"BNE.N loop         "
+	);
+}

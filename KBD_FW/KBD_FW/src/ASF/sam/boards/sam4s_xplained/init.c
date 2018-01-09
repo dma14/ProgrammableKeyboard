@@ -65,6 +65,17 @@ void board_init(void)
 	 */
 	ioport_init();
 
+	/* Configure Keyboard Cols */
+	gpio_configure_pin(GPIO_COL_0, GPIO_COL_0_FLAGS);
+	gpio_configure_pin(GPIO_COL_1, GPIO_COL_1_FLAGS);
+	gpio_configure_pin(GPIO_COL_2, GPIO_COL_2_FLAGS);
+	
+	/* Configure Keyboard Rows */
+	gpio_configure_pin(GPIO_ROW_0, GPIO_ROW_0_FLAGS);
+	gpio_configure_pin(GPIO_ROW_1, GPIO_ROW_1_FLAGS);
+	gpio_configure_pin(GPIO_ROW_2, GPIO_ROW_2_FLAGS);
+	gpio_configure_pin(GPIO_GND, GPIO_GND_FLAGS);
+
 	/* Configure LED pins */
 	gpio_configure_pin(LED0_GPIO, LED0_FLAGS);
 	gpio_configure_pin(LED1_GPIO, LED1_FLAGS);

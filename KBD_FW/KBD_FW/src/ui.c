@@ -46,6 +46,7 @@
 
 #include <asf.h>
 #include "ui.h"
+#include "key_reader.h"
 
 #define  MOUSE_MOVE_RANGE  3
 #define  MOUSE_MOVE_COUNT  50
@@ -294,6 +295,16 @@ void ui_process(uint16_t framenumber)
 	static uint8_t u8_sequence_pos = 0;
 	uint8_t u8_value;
 	static uint16_t cpt_sof = 0;
+	char key_result;
+	
+	if (framenumber % 100 == 0) {
+		// Check for a key press
+		key_result = keyboard_read();
+		
+		if (key_result != '0') {
+			printf("Key Press: %c.\n\r", key_result);
+		}
+	}
 
 	if ((framenumber % 1000) == 0) {
 		LED_On(LED0_GPIO);

@@ -95,6 +95,30 @@
 #define cortexm3
 
 /*----------------------------------------------------------------------------*/
+/** Pins Key Cols*/
+#define GPIO_COL_0       (PIO_PB2_IDX)
+#define GPIO_COL_0_FLAGS (PIO_OUTPUT_1)
+
+#define GPIO_COL_1       (PIO_PB3_IDX)
+#define GPIO_COL_1_FLAGS (PIO_OUTPUT_1)
+
+#define GPIO_COL_2       (PIO_PA30_IDX)
+#define GPIO_COL_2_FLAGS (PIO_OUTPUT_1)
+
+/** Pins Key Rows*/
+#define GPIO_ROW_0      (PIO_PA22_IDX)
+#define GPIO_ROW_0_FLAGS (PIO_INPUT | PIO_PULLUP | PIO_DEBOUNCE | PIO_IT_RISE_EDGE)
+
+#define GPIO_ROW_1      (PIO_PB0_IDX)
+#define GPIO_ROW_1_FLAGS (PIO_INPUT | PIO_PULLUP | PIO_DEBOUNCE | PIO_IT_RISE_EDGE)
+
+#define GPIO_ROW_2      (PIO_PB1_IDX)
+#define GPIO_ROW_2_FLAGS (PIO_INPUT | PIO_PULLUP | PIO_DEBOUNCE | PIO_IT_RISE_EDGE)
+
+#define GPIO_GND        (PIO_PA31_IDX)
+#define GPIO_GND_FLAGS   (PIO_OUTPUT_0)
+
+
 /** Pins ADC */
 #define PINS_ADC_TRIG      PIO_PA8_IDX
 #define PINS_ADC_TRIG_FLAG (PIO_PERIPH_B | PIO_DEFAULT)

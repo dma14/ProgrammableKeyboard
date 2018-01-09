@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief UART functions
+ * \brief Serial USART service configuration.
  *
- * Copyright (c) 2009-2015 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2011-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,29 +44,28 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _UART_H_
-#define _UART_H_
-#include "ASF/sam/drivers/uart/uart.h"
-#include "ASF/common/services/usb/class/cdc/usb_protocol_cdc.h"
+#ifndef CONF_USART_SERIAL_H
+#define CONF_USART_SERIAL_H
+
+/* A reference setting for UART */
+/** UART Interface */
+#define CONF_UART            CONSOLE_UART
+/** Baudrate setting */
+#define CONF_UART_BAUDRATE   115200
+/** Parity setting */
+#define CONF_UART_PARITY     UART_MR_PAR_NO
 
 
-/*! \brief Called by CDC interface
- * Callback running when CDC device have received data
- */
-void uart_rx_notify(uint8_t port);
+/* A reference setting for USART */
+/** USART Interface */
+//#define CONF_UART              USART1
+/** Baudrate setting */
+//#define CONF_UART_BAUDRATE     115200
+/** Character length setting */
+//#define CONF_UART_CHAR_LENGTH  US_MR_CHRL_8_BIT
+/** Parity setting */
+//#define CONF_UART_PARITY       US_MR_PAR_NO
+/** Stop bits setting */
+//#define CONF_UART_STOP_BITS    US_MR_NBSTOP_1_BIT
 
-/*! \brief Configures communication line
- *
- * \param cfg      line configuration
- */
-void uart_config(uint8_t port, usb_cdc_line_coding_t * cfg);
-
-/*! \brief Opens communication line
- */
-void uart_open(uint8_t port);
-
-/*! \brief Closes communication line
- */
-void uart_close(uint8_t port);
-
-#endif // _UART_H_
+#endif/* CONF_USART_SERIAL_H_INCLUDED */
