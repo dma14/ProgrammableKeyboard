@@ -1,0 +1,6 @@
+*.log
+*.cproj
+*.o
+*.d
+**/Debug/**
+**/Release/**
