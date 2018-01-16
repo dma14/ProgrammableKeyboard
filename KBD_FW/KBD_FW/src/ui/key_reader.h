@@ -11,8 +11,12 @@
 
 #include "board.h"
 #include "ASF/common/services/gpio/gpio.h"
+#include "fifo.h"
+
+static uint8_t key_event_up = 1;
+static uint8_t key_event_down = 0;
 
 // Runs the key polling algorithm and returns the character for the key.
-char keyboard_read(void);
+void keyboard_read(fifo_desc_t *fifo);
 
 #endif /* KEY_READER_H_ */

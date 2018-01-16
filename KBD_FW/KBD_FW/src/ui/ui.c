@@ -47,6 +47,7 @@
 #include <asf.h>
 #include "ui.h"
 #include "key_reader.h"
+#include "fifo.h"
 
 #define  MOUSE_MOVE_RANGE  3
 #define  MOUSE_MOVE_COUNT  50
@@ -177,6 +178,11 @@ static struct {
 #define  WAKEUP_PIO_MASK (PIO_PA15)
 #define  WAKEUP_PIO_ATTR (PIO_INPUT | PIO_PULLUP | PIO_DEBOUNCE | PIO_IT_LOW_LEVEL)
 
+// Key event FIFO
+#define KEY_EVENT_FIFO_SIZE 512
+fifo_desc_t key_event_fifo_desc;
+uint8_t     key_event_buf[KEY_EVENT_FIFO_SIZE];
+
 // Interrupt on "pin change" from PA15 to do wakeup on USB
 // Note:
 // This interrupt is enable when the USB host enable remotewakeup feature
@@ -202,6 +208,9 @@ void ui_init(void)
 	// Initialize LEDs
 	LED_On(LED0_GPIO);
 	LED_Off(LED1_GPIO);
+	
+	// Initialize the key even FIFO queue
+	fifo_init(&key_event_fifo_desc, key_event_buf, KEY_EVENT_FIFO_SIZE);
 }
 
 void ui_powerdown(void)
@@ -289,7 +298,7 @@ void ui_stop_write(void)
 
 void ui_process(uint16_t framenumber)
 {
-	bool b_btn_state, sucess;
+	bool b_btn_state, sucess, success;	
 	static bool btn_last_state = false;
 	static bool sequence_running = false;
 	static uint8_t u8_sequence_pos = 0;
@@ -299,10 +308,27 @@ void ui_process(uint16_t framenumber)
 	
 	if (framenumber % 100 == 0) {
 		// Check for a key press
-		key_result = keyboard_read();
+		keyboard_read(&key_event_fifo_desc);
 		
-		if (key_result != '0') {
-			printf("Key Press: %c.\n\r", key_result);
+		// If the key event queue has elements in it, send the first event.
+		if (!fifo_is_empty(&key_event_fifo_desc)) {
+			uint8_t direction;
+			fifo_pull_uint8(&key_event_fifo_desc, &direction);
+			uint8_t keycode;
+			fifo_pull_uint8(&key_event_fifo_desc, &keycode);
+			
+			if (direction == key_event_up) {
+				success = udi_hid_kbd_up(keycode);
+			} else if (direction == key_event_down) {
+				success = udi_hid_kbd_down(keycode);
+			}
+			
+			// If it didn't work, re-add the event to the queue to try again
+			if (!success) {
+				fifo_push_uint8(&key_event_fifo_desc, direction);
+				fifo_push_uint8(&key_event_fifo_desc, keycode);
+				printf("Failed key event.");
+			}
 		}
 	}
 
