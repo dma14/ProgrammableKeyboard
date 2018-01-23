@@ -49,6 +49,8 @@
 #include "conf_usb.h"
 #include "ui.h"
 #include "uart.h"
+#include "spi_master.h"
+#include "conf_E2417CS051.h"
 
 static volatile bool main_b_keyboard_enable = false;
 static volatile bool main_b_msc_enable = false;
@@ -80,7 +82,6 @@ static void configure_console(void)
 
 // [main_console_configure]
 
-
 /*! \brief Main function. Execution starts here.
  */
 int main(void)
@@ -106,6 +107,17 @@ int main(void)
 	
 	// Configure UART Console
 	configure_console();
+	
+	// SPI Setup
+	spi_flags_t spi_flags = SPI_MODE_0;
+	board_spi_select_id_t spi_select_id = 0;
+	struct spi_device device = {
+		.id = 0,
+	};
+	spi_master_init(CONF_E2417CS051_SPI);
+	spi_master_setup_device(CONF_E2417CS051_SPI, &device, spi_flags, 
+			CONF_E2417CS051_CLOCK_SPEED, spi_select_id);
+	spi_enable(CONF_E2417CS051_SPI);
 
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt

@@ -74,7 +74,6 @@ void board_init(void)
 	gpio_configure_pin(GPIO_ROW_0, GPIO_ROW_0_FLAGS);
 	gpio_configure_pin(GPIO_ROW_1, GPIO_ROW_1_FLAGS);
 	gpio_configure_pin(GPIO_ROW_2, GPIO_ROW_2_FLAGS);
-	gpio_configure_pin(GPIO_GND, GPIO_GND_FLAGS);
 
 	/* Configure LED pins */
 	gpio_configure_pin(LED0_GPIO, LED0_FLAGS);
@@ -98,9 +97,13 @@ void board_init(void)
 	gpio_configure_pin(TWI1_CLK_GPIO, TWI1_CLK_FLAGS);
 #endif
 
+	/* Configure LCD GPIO*/
+	gpio_configure_pin(GPIO_LCD_BUSY, GPIO_LCD_BUSY_FLAGS);
+	gpio_configure_pin(GPIO_LCD_RESET, GPIO_LCD_RESET_FLAGS);
+
 	/* Configure SPI pins */
 #ifdef CONF_BOARD_SPI
-	gpio_configure_pin(SPI_MISO_GPIO, SPI_MISO_FLAGS);
+	// gpio_configure_pin(SPI_MISO_GPIO, SPI_MISO_FLAGS);
 	gpio_configure_pin(SPI_MOSI_GPIO, SPI_MOSI_FLAGS);
 	gpio_configure_pin(SPI_SPCK_GPIO, SPI_SPCK_FLAGS);
 	
