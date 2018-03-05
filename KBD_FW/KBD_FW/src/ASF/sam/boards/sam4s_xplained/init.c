@@ -81,6 +81,14 @@ void board_init(void)
 	
 	/* Configure Push Button pins */
 	gpio_configure_pin(GPIO_PUSH_BUTTON_1, GPIO_PUSH_BUTTON_1_FLAGS);
+	
+	/* Configure Display Pins*/
+	gpio_configure_pin(DISPLAY_CS, DISPLAY_CS_FLAGS);
+	gpio_configure_pin(DISPLAY_DC, DISPLAY_DC_FLAGS);
+	gpio_configure_pin(DISPLAY_RST, DISPLAY_RST_FLAGS);
+	gpio_configure_pin(DISPLAY_BUSY, DISPLAY_BUSY_FLAGS);
+	gpio_configure_pin(DISPLAY_PANEL_ON, DISPLAY_PANEL_ON_FLAGS);
+	gpio_configure_pin(DISPLAY_DISCHARGE, DISPLAY_DISCHARGE_FLAGS);
 
 #ifdef CONF_BOARD_UART_CONSOLE
 	/* Configure UART pins */

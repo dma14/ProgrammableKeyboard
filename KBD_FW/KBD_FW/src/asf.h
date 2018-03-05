@@ -59,6 +59,9 @@
 // From module: Delay routines
 #include <delay.h>
 
+// From module: GFX Color - Color Graphic Library
+#include <gfx.h>
+
 // From module: GPIO - General purpose Input/Output
 #include <gpio.h>
 
@@ -71,11 +74,17 @@
 // From module: Interrupt management - SAM implementation
 #include <interrupt.h>
 
+// From module: LCD - ILI9341 Display Controller
+#include <iTC.h>
+
 // From module: MATRIX - Bus Matrix
 #include <matrix.h>
 
 // From module: Memory Control Access Interface
 #include <ctrl_access.h>
+
+// From module: PDC - Peripheral DMA Controller Example
+#include <pdc.h>
 
 // From module: PIO - Parallel Input/Output Controller
 #include <pio.h>

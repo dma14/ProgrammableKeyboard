@@ -62,7 +62,7 @@
 /* Configure SPI pins */
 #define CONF_BOARD_SPI
 //#define CONF_BOARD_SPI_NPCS0
-#define CONF_BOARD_SPI_NPCS1
+// #define CONF_BOARD_SPI_NPCS1
 //#define CONF_BOARD_SPI_NPCS2
 //#define CONF_BOARD_SPI_NPCS3
 
@@ -82,6 +82,6 @@
 //#define CONF_BOARD_USART_SCK
 
 /* Configure SRAM pin */
-#define CONF_BOARD_SRAM
+// #define CONF_BOARD_SRAM
 
 #endif /* CONF_BOARD_H_INCLUDED */

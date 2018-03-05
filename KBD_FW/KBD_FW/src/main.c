@@ -50,7 +50,7 @@
 #include "ui.h"
 #include "uart.h"
 #include "spi_master.h"
-#include "conf_E2417CS051.h"
+#include "conf_iTC.h"
 
 static volatile bool main_b_keyboard_enable = false;
 static volatile bool main_b_msc_enable = false;
@@ -108,16 +108,25 @@ int main(void)
 	// Configure UART Console
 	configure_console();
 	
-	// SPI Setup
+	// SPI Setup - Handled in graphics init
+	/*
 	spi_flags_t spi_flags = SPI_MODE_0;
 	board_spi_select_id_t spi_select_id = 0;
 	struct spi_device device = {
 		.id = 0,
 	};
-	spi_master_init(CONF_E2417CS051_SPI);
-	spi_master_setup_device(CONF_E2417CS051_SPI, &device, spi_flags, 
-			CONF_E2417CS051_CLOCK_SPEED, spi_select_id);
-	spi_enable(CONF_E2417CS051_SPI);
+	spi_master_init(CONF_ITC_SPI);
+	spi_master_setup_device(CONF_ITC_SPI, &device, spi_flags, 
+			CONF_ITC_CLOCK_SPEED, spi_select_id);
+	spi_enable(CONF_ITC_SPI);
+	*/
+	
+	// Initialize Graphics Driver
+	gfx_init();
+	
+	/* Clear the screen */
+	gfx_draw_filled_rect(0, 0, gfx_get_width(), gfx_get_height(), GFX_COLOR_WHITE);
+	itc_refresh_screen();
 
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt
