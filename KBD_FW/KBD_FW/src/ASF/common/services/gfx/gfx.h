@@ -64,12 +64,12 @@ extern "C" {
 #  define PROGMEM_PTR_T const *
 #  define PROGMEM_READ_BYTE(x) *(x)
 #endif
-
+#if 0
 #if defined(CONF_GFX_HX8347A_ET024006DHU)
 # include "gfx_hx8347a_et024006dhu.h"
 # include "gfx_generic.h"
 # define CONF_GFX_USE_CLIPPING
-#elif defined(CONF_GFX_ILI9341_SDT028ATFT)
+#elif defined(CONF_GFX_ITC)
 # include "gfx_itc.h"
 # include "gfx_generic.h"
 # define CONF_GFX_USE_CLIPPING
@@ -87,9 +87,16 @@ extern "C" {
 # include "gfx_ili9488_90_00028_a0.h"
 # include "gfx_generic.h"
 #define CONF_GFX_USE_CLIPPING
-#else
-#  error "Configuration for display controller/panel not selected"
 #endif
+#endif
+
+//TODO: Compiler Issues Here!
+//#ifdef CONF_GFX_ITC
+# include "gfx_itc.h"
+# include "gfx_generic.h"
+//#else
+//#  error "Configuration for display controller/panel not selected"
+//#endif
 
 /**
  * \defgroup gfx_group Graphical display system

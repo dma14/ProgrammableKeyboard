@@ -47,10 +47,34 @@
 #include <asf.h>
 #include "ui.h"
 #include "key_reader.h"
+#include "key_icons.h"
 #include "fifo.h"
+#include "Bitmaps.h"
 
-#define  MOUSE_MOVE_RANGE  3
-#define  MOUSE_MOVE_COUNT  50
+#define KEY_ROW_NUM		4
+#define KEY_COL_NUM		3
+#define KEY_COUNT		KEY_ROW_NUM*KEY_COL_NUM
+#define KEY_ICON_MAX_DIM  50
+
+static struct  {
+	gfx_coord_t x;
+	gfx_coord_t y;
+	key_icon_t* icon;
+	bool req_update;
+} key_icon_array[KEY_COUNT] = {
+	{60, 50, NULL, 0},
+	{152, 50, NULL, 0},
+	{244, 50, NULL, 0},
+	{336, 50, NULL, 0},
+	{60, 142, NULL, 0},
+	{152, 142, NULL, 0},
+	{244, 142, NULL, 0},
+	{336, 142, NULL, 0},
+	{60, 234, NULL, 0},
+	{152, 234, NULL, 0},
+	{244, 234, NULL, 0},
+	{336, 234, NULL, 0}
+	};
 
 #define  MOVE_UP     0
 #define  MOVE_RIGHT  1
@@ -211,6 +235,25 @@ void ui_init(void)
 	
 	// Initialize the key even FIFO queue
 	fifo_init(&key_event_fifo_desc, key_event_buf, KEY_EVENT_FIFO_SIZE);
+	
+	// Initialize Graphics Driver
+	gfx_init();
+	
+	/* Clear the screen */
+	gfx_draw_filled_rect(0, 0, gfx_get_width(), gfx_get_height(), GFX_COLOR_WHITE);
+	itc_refresh_screen();
+	
+	// Initialize Key Icons
+	for (int i = 0; i < KEY_COUNT; i++) {
+		key_icon_array[i].icon = key_icon_init(key_icon_array[i].x, key_icon_array[i].y, KEY_ICON_MAX_DIM, KEY_ICON_MAX_DIM, KEY_ICON_MAX_DIM);
+	}
+	
+	// Set Initial Key Icons
+	for (int i = 0; i < KEY_COUNT; i++) {
+		key_icon_set(key_icon_array[i].icon, &testText);
+		key_icon_update(key_icon_array[i].icon);
+	}
+	itc_refresh_screen();
 }
 
 void ui_powerdown(void)

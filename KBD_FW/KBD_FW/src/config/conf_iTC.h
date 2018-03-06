@@ -9,6 +9,7 @@
 #ifndef CONF_ITC_H_
 #define CONF_ITC_H_
 
+#define CONF_GFX_ITC
 
 #define CONF_ITC_SPI SPI
 
