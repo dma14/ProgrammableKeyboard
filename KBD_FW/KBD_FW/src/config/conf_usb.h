@@ -68,8 +68,8 @@
 
 //! USB Device string definitions (Optional)
 #define  USB_DEVICE_MANUFACTURE_NAME      "ATMEL ASF"
-#define  USB_DEVICE_PRODUCT_NAME          "HID keyboard, CDC and MSC"
-#define  USB_DEVICE_SERIAL_NAME           "123123123123" // Disk SN for MSC
+#define  USB_DEVICE_PRODUCT_NAME          "HID keyboard and CDC"
+//#define  USB_DEVICE_SERIAL_NAME           "123123123123" // Disk SN for MSC
 
 /**
  * Device speeds support
@@ -112,8 +112,8 @@
 //! Control endpoint size
 #define  USB_DEVICE_EP_CTRL_SIZE       64
 
-//! Two interfaces for this device (CDC + MSC + HID keyboard)
-#define  USB_DEVICE_NB_INTERFACE       4
+//! Two interfaces for this device (CDC + HID keyboard)
+#define  USB_DEVICE_NB_INTERFACE       3
 
 //! 7 endpoints used by HID mouse, HID keyboard, CDC and MSC interfaces
 //! but an IN and OUT endpoints can be defined with the same number on XMEGA, thus 5
@@ -124,7 +124,7 @@
 // (2 | USB_EP_DIR_OUT) // MSC OUT
 // (3 | USB_EP_DIR_IN)  // HID mouse report
 // (4 | USB_EP_DIR_IN)  // HID keyboard report
-#define  USB_DEVICE_MAX_EP             6
+#define  USB_DEVICE_MAX_EP             4
 #  if SAM3XA && defined(USB_DEVICE_HS_SUPPORT)
 // In HS mode, size of bulk endpoints are 512
 // If CDC and MSC endpoints all uses 2 banks, DPRAM is not enough: 4 bulk
@@ -179,9 +179,9 @@
  * @{
  */
 //! Endpoint numbers definition
-#define  UDI_CDC_COMM_EP_0             (6 | USB_EP_DIR_IN)  // Notify endpoint
-#define  UDI_CDC_DATA_EP_IN_0          (5 | USB_EP_DIR_IN)  // TX
-#define  UDI_CDC_DATA_EP_OUT_0         (4 | USB_EP_DIR_OUT) // RX
+#define  UDI_CDC_COMM_EP_0             (4 | USB_EP_DIR_IN)  // Notify endpoint
+#define  UDI_CDC_DATA_EP_IN_0          (3 | USB_EP_DIR_IN)  // TX
+#define  UDI_CDC_DATA_EP_OUT_0         (2 | USB_EP_DIR_OUT) // RX
 
 //! Interface numbers
 #define  UDI_CDC_COMM_IFACE_NUMBER_0   0
@@ -189,38 +189,6 @@
 //@}
 //@}
 
-
-/**
- * Configuration of MSC interface
- * @{
- */
-//! Vendor name and Product version of MSC interface
-#define UDI_MSC_GLOBAL_VENDOR_ID            \
-   'A', 'T', 'M', 'E', 'L', ' ', ' ', ' '
-#define UDI_MSC_GLOBAL_PRODUCT_VERSION            \
-   '1', '.', '0', '0'
-
-//! Interface callback definition
-#define  UDI_MSC_ENABLE_EXT()          main_msc_enable()
-#define  UDI_MSC_DISABLE_EXT()         main_msc_disable()
-
-//! Enable id string of interface to add an extra USB string
-#define  UDI_MSC_STRING_ID                5
-
-/**
- * USB MSC low level configuration
- * In standalone these configurations are defined by the MSC module.
- * For composite device, these configuration must be defined here
- * @{
- */
-//! Endpoint numbers definition
-#define  UDI_MSC_EP_IN                 (1 | USB_EP_DIR_IN)
-#define  UDI_MSC_EP_OUT                (2 | USB_EP_DIR_OUT)
-
-//! Interface number
-#define  UDI_MSC_IFACE_NUMBER          2
-//@}
-//@}
 
 /**
  * Configuration of HID Keyboard interface
@@ -232,7 +200,7 @@
 #define  UDI_HID_KBD_CHANGE_LED(value)  ui_kbd_led(value)
 
 //! Enable id string of interface to add an extra USB string
-#define  UDI_HID_KBD_STRING_ID            6
+#define  UDI_HID_KBD_STRING_ID            5
 
 /**
  * USB HID Keyboard low level configuration
@@ -241,10 +209,10 @@
  * @{
  */
 //! Endpoint numbers definition
-#define  UDI_HID_KBD_EP_IN           (3 | USB_EP_DIR_IN)
+#define  UDI_HID_KBD_EP_IN           (1 | USB_EP_DIR_IN)
 
 //! Interface number
-#define  UDI_HID_KBD_IFACE_NUMBER    3
+#define  UDI_HID_KBD_IFACE_NUMBER    2
 //@}
 //@}
 
@@ -260,7 +228,6 @@
 	usb_iad_desc_t       udi_cdc_iad; \
 	udi_cdc_comm_desc_t  udi_cdc_comm; \
 	udi_cdc_data_desc_t  udi_cdc_data; \
-	udi_msc_desc_t       udi_msc; \
 	udi_hid_kbd_desc_t   udi_hid_kbd
 
 //! USB Interfaces descriptor value for Full Speed
@@ -268,7 +235,6 @@
 	.udi_cdc_iad   = UDI_CDC_IAD_DESC_0, \
 	.udi_cdc_comm  = UDI_CDC_COMM_DESC_0, \
 	.udi_cdc_data  = UDI_CDC_DATA_DESC_0_FS, \
-	.udi_msc       = UDI_MSC_DESC_FS, \
 	.udi_hid_kbd   = UDI_HID_KBD_DESC
 
 //! USB Interfaces descriptor value for High Speed
@@ -276,14 +242,12 @@
 	.udi_cdc_iad   = UDI_CDC_IAD_DESC_0, \
 	.udi_cdc_comm  = UDI_CDC_COMM_DESC_0, \
 	.udi_cdc_data  = UDI_CDC_DATA_DESC_0_HS, \
-	.udi_msc       = UDI_MSC_DESC_HS, \
 	.udi_hid_kbd   = UDI_HID_KBD_DESC
 
 //! USB Interface APIs
 #define	UDI_COMPOSITE_API \
 	&udi_api_cdc_comm, \
 	&udi_api_cdc_data, \
-	&udi_api_msc, \
 	&udi_api_hid_kbd
 //@}
 
@@ -296,7 +260,6 @@
 
 //! The includes of classes and other headers must be done at the end of this file to avoid compile error
 #include "udi_cdc.h"
-#include "udi_msc.h"
 #include "udi_hid_kbd.h"
 #include "uart.h"
 #include "main.h"

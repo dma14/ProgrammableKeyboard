@@ -53,7 +53,6 @@
 #include "conf_iTC.h"
 
 static volatile bool main_b_keyboard_enable = false;
-static volatile bool main_b_msc_enable = false;
 static volatile bool main_b_cdc_enable = false;
 
 // [main_tc_configure]
@@ -111,13 +110,7 @@ int main(void)
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt
 	while (true) {
-		if (main_b_msc_enable) {
-			if (!udi_msc_process_trans()) {
-				sleepmgr_enter_sleep();
-			}
-		}else{
-			sleepmgr_enter_sleep();
-		}
+		sleepmgr_enter_sleep();
 	}
 
 }
@@ -134,8 +127,7 @@ void main_resume_action(void)
 
 void main_sof_action(void)
 {
-	if ((!main_b_msc_enable) ||
-		(!main_b_keyboard_enable) ||
+	if ((!main_b_keyboard_enable) ||
 		(!main_b_cdc_enable))
 		return;
 	ui_process(udd_get_frame_number());
@@ -161,13 +153,12 @@ void main_remotewakeup_disable(void)
 bool main_extra_string(void)
 {
 	static uint8_t udi_cdc_name[] = "CDC interface";
-	static uint8_t udi_msc_name[] = "MSC interface";
 	static uint8_t udi_hid_kbd_name[] = "HID keyboard interface";
 
 	struct extra_strings_desc_t{
 		usb_str_desc_t header;
-		le16_t string[Max(Max( \
-			sizeof(udi_cdc_name)-1, sizeof(udi_msc_name)-1),\
+		le16_t string[Max(\
+			sizeof(udi_cdc_name)-1,\
 			sizeof(udi_hid_kbd_name)-1)];
 	};
 	static UDC_DESC_STORAGE struct extra_strings_desc_t extra_strings_desc = {
@@ -183,10 +174,6 @@ bool main_extra_string(void)
 	case UDI_CDC_IAD_STRING_ID:
 		str_lgt = sizeof(udi_cdc_name)-1;
 		str = udi_cdc_name;
-		break;
-	case UDI_MSC_STRING_ID:
-		str_lgt = sizeof(udi_msc_name)-1;
-		str = udi_msc_name;
 		break;
 	case UDI_HID_KBD_STRING_ID:
 		str_lgt = sizeof(udi_hid_kbd_name)-1;
@@ -210,17 +197,6 @@ bool main_extra_string(void)
 		udd_g_ctrlreq.payload_size = udd_g_ctrlreq.req.wLength;
 	}
 	return true;
-}
-
-bool main_msc_enable(void)
-{
-	main_b_msc_enable = true;
-	return true;
-}
-
-void main_msc_disable(void)
-{
-	main_b_msc_enable = false;
 }
 
 bool main_keyboard_enable(void)

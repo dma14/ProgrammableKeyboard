@@ -80,9 +80,6 @@
 // From module: MATRIX - Bus Matrix
 #include <matrix.h>
 
-// From module: Memory Control Access Interface
-#include <ctrl_access.h>
-
 // From module: PDC - Peripheral DMA Controller Example
 #include <pdc.h>
 
@@ -137,12 +134,6 @@
 // From module: USB Device HID Keyboard (Composite Device)
 #include <udi_hid_kbd.h>
 
-// From module: USB Device HID Mouse (Composite Device)
-#include <udi_hid_mouse.h>
-
-// From module: USB Device MSC (Composite Device)
-#include <udi_msc.h>
-
 // From module: USB Device Stack Core (Common API)
 #include <udc.h>
 #include <udd.h>
@@ -152,12 +143,6 @@
 
 // From module: USB HID Library (Device)
 #include <udi_hid.h>
-
-// From module: USB MSC Protocol
-#include <usb_protocol_msc.h>
-
-// From module: Virtual Memory in RAM
-#include <virtual_mem.h>
 
 // From module: pio_handler support enabled
 #include <pio_handler.h>

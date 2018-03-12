@@ -30,9 +30,9 @@
       <framework-data>
         <options>
           <option id="common.boards" value="Add" config="" content-id="Atmel.ASF" />
-          <option id="common.components.memory.virtual_mem" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.basic.clock" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.delay" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.gfx" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.basic.gpio" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.ioport" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.basic.sleepmgr" value="Add" config="" content-id="Atmel.ASF" />
@@ -43,7 +43,6 @@
           <option id="sam.drivers.pio" value="Add" config="" content-id="Atmel.ASF" />
           <option id="sam.drivers.pmc" value="Add" config="" content-id="Atmel.ASF" />
           <option id="sam.drivers.usart" value="Add" config="" content-id="Atmel.ASF" />
-          <option id="common.services.gfx" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.usb.class.composite.device.example.hids_cdc_msc" value="Add" config="" content-id="Atmel.ASF" />
           <option id="sam.utils.cmsis.sam4s.source.template" value="Add" config="" content-id="Atmel.ASF" />
         </options>
@@ -51,9 +50,9 @@
           <configuration key="config.board.sam4s_xplained.led" value="yes" default="yes" content-id="Atmel.ASF" />
           <configuration key="config.common.services.usb.class.cdc.device.composite" value="enable" default="enable" content-id="Atmel.ASF" />
           <configuration key="config.common.services.usb.class.device" value="composite" default="composite" content-id="Atmel.ASF" />
-          <configuration key="config.common.services.usb.class.hid.device.mouse.composite" value="enable" default="enable" content-id="Atmel.ASF" />
+          <configuration key="config.common.services.usb.class.hid.device.mouse.composite" value="disable" default="enable" content-id="Atmel.ASF" />
           <configuration key="config.common.services.usb.class.hid.device.keyboard.composite" value="enable" default="enable" content-id="Atmel.ASF" />
-          <configuration key="config.common.services.usb.class.msc.device.composite" value="enable" default="enable" content-id="Atmel.ASF" />
+          <configuration key="config.common.services.usb.class.msc.device.composite" value="disable" default="enable" content-id="Atmel.ASF" />
           <configuration key="config.compiler.armgcc.printf" value="iprintf" default="iprintf" content-id="Atmel.ASF" />
           <configuration key="config.compiler.armgcc.scanf" value="iscanf" default="iscanf" content-id="Atmel.ASF" />
           <configuration key="config.sam.pio.pio_handler" value="yes" default="yes" content-id="Atmel.ASF" />
@@ -84,8 +83,6 @@
           <file path="src/ASF/common/services/sleepmgr/sam/sleepmgr.c" framework="" version="" source="common/services/sleepmgr/sam/sleepmgr.c" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/sleepmgr/sam/sleepmgr.h" framework="" version="" source="common/services/sleepmgr/sam/sleepmgr.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/sleepmgr/sleepmgr.h" framework="" version="" source="common/services/sleepmgr/sleepmgr.h" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/storage/ctrl_access/ctrl_access.c" framework="" version="" source="common/services/storage/ctrl_access/ctrl_access.c" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/storage/ctrl_access/ctrl_access.h" framework="" version="" source="common/services/storage/ctrl_access/ctrl_access.h" changed="False" content-id="Atmel.ASF" />
           <file path="atmel_devices_cdc.cat" framework="" version="" source="common/services/usb/class/cdc/device/atmel_devices_cdc.cat" changed="False" content-id="Atmel.ASF" />
           <file path="atmel_devices_cdc.inf" framework="" version="" source="common/services/usb/class/cdc/device/atmel_devices_cdc.inf" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/class/cdc/device/udi_cdc.c" framework="" version="" source="common/services/usb/class/cdc/device/udi_cdc.c" changed="False" content-id="Atmel.ASF" />
@@ -95,12 +92,10 @@
           <file path="src/main.c" framework="" version="" source="common/services/usb/class/composite/device/example2/main.c" changed="False" content-id="Atmel.ASF" />
           <file path="src/main.h" framework="" version="" source="common/services/usb/class/composite/device/example2/main.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/memories_initialization_sam.c" framework="" version="" source="common/services/usb/class/composite/device/example2/memories_initialization_sam.c" changed="False" content-id="Atmel.ASF" />
-          <file path="src/config/conf_access.h" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/conf_access.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/config/conf_board.h" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/conf_board.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/config/conf_clock.h" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/conf_clock.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/config/conf_example.h" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/conf_example.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/config/conf_sleepmgr.h" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/conf_sleepmgr.h" changed="False" content-id="Atmel.ASF" />
-          <file path="src/config/conf_virtual_mem.h" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/conf_virtual_mem.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/ui.c" framework="" version="" source="common/services/usb/class/composite/device/example2/sam4s16c_sam4s_xplained/ui.c" changed="False" content-id="Atmel.ASF" />
           <file path="src/uart.h" framework="" version="" source="common/services/usb/class/composite/device/example2/uart.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/uart_sam.c" framework="" version="" source="common/services/usb/class/composite/device/example2/uart_sam.c" changed="False" content-id="Atmel.ASF" />
@@ -114,11 +109,6 @@
           <file path="src/ASF/common/services/usb/class/hid/device/udi_hid.c" framework="" version="" source="common/services/usb/class/hid/device/udi_hid.c" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/class/hid/device/udi_hid.h" framework="" version="" source="common/services/usb/class/hid/device/udi_hid.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/class/hid/usb_protocol_hid.h" framework="" version="" source="common/services/usb/class/hid/usb_protocol_hid.h" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/usb/class/msc/device/udi_msc.c" framework="" version="" source="common/services/usb/class/msc/device/udi_msc.c" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/usb/class/msc/device/udi_msc.h" framework="" version="" source="common/services/usb/class/msc/device/udi_msc.h" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/usb/class/msc/sbc_protocol.h" framework="" version="" source="common/services/usb/class/msc/sbc_protocol.h" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/usb/class/msc/spc_protocol.h" framework="" version="" source="common/services/usb/class/msc/spc_protocol.h" changed="False" content-id="Atmel.ASF" />
-          <file path="src/ASF/common/services/usb/class/msc/usb_protocol_msc.h" framework="" version="" source="common/services/usb/class/msc/usb_protocol_msc.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/udc/udc.c" framework="" version="" source="common/services/usb/udc/udc.c" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/udc/udc.h" framework="" version="" source="common/services/usb/udc/udc.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/services/usb/udc/udc_desc.h" framework="" version="" source="common/services/usb/udc/udc_desc.h" changed="False" content-id="Atmel.ASF" />
@@ -310,7 +300,7 @@
       </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.samice</avrtool>
-    <avrtoolserialnumber>480014793</avrtoolserialnumber>
+    <avrtoolserialnumber>480013825</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x28AC0CE0</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_samice>
       <ToolOptions>
@@ -330,11 +320,10 @@
         <JlinkConfigFile>C:\Users\qis4q\OneDrive\Documents\Enph459\Firmware\ProgrammableKeyboard\KBD_FW\KBD_FW\jlink.config</JlinkConfigFile>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
-      <ToolNumber>480014793</ToolNumber>
+      <ToolNumber>480013825</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
-    <avrtoolinterface>
-    </avrtoolinterface>
+    <avrtoolinterface>JTAG</avrtoolinterface>
     <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
     <ResetRule>0</ResetRule>
     <EraseKey />
@@ -351,20 +340,16 @@
     <ListValues>
       <Value>NDEBUG</Value>
       <Value>BOARD=SAM4S_XPLAINED</Value>
-      <Value>VIRTUAL_MEMORY_ENABLE</Value>
       <Value>ARM_MATH_CM4=true</Value>
       <Value>printf=iprintf</Value>
       <Value>UDD_ENABLE</Value>
       <Value>scanf=iscanf</Value>
-      <Value>ACCESS_USB_ENABLED</Value>
       <Value>__SAM4S16C__</Value>
       <Value>CONF_GFX_ILI9341_SDT028ATFT=1</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
   <armgcc.compiler.directories.IncludePaths>
     <ListValues>
-      <Value>../src/ASF/common/components/memory/virtual_mem</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
       <Value>../src</Value>
       <Value>../src/ASF/sam/drivers/usart</Value>
       <Value>../src/ASF/common/services/clock</Value>
@@ -389,9 +374,6 @@
       <Value>../src/ASF/common/services/usb/class/hid/device/kbd</Value>
       <Value>../src/ASF/common/services/usb/class/hid/device</Value>
       <Value>../src/ASF/common/services/usb/class/hid</Value>
-      <Value>../src/ASF/common/services/usb/class/hid/device/mouse</Value>
-      <Value>../src/ASF/common/services/usb/class/msc/device</Value>
-      <Value>../src/ASF/common/services/usb/class/msc</Value>
       <Value>../src/ASF/sam/boards</Value>
       <Value>../src/ASF/sam/boards/sam4s_xplained</Value>
       <Value>../src/ASF/common/boards</Value>
@@ -432,8 +414,6 @@
   <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam/utils/linker_scripts/sam4s/sam4s16/gcc/flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
-      <Value>../src/ASF/common/components/memory/virtual_mem</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
       <Value>../src</Value>
       <Value>../src/ASF/sam/drivers/usart</Value>
       <Value>../src/ASF/common/services/clock</Value>
@@ -458,9 +438,6 @@
       <Value>../src/ASF/common/services/usb/class/hid/device/kbd</Value>
       <Value>../src/ASF/common/services/usb/class/hid/device</Value>
       <Value>../src/ASF/common/services/usb/class/hid</Value>
-      <Value>../src/ASF/common/services/usb/class/hid/device/mouse</Value>
-      <Value>../src/ASF/common/services/usb/class/msc/device</Value>
-      <Value>../src/ASF/common/services/usb/class/msc</Value>
       <Value>../src/ASF/sam/boards</Value>
       <Value>../src/ASF/sam/boards/sam4s_xplained</Value>
       <Value>../src/ASF/common/boards</Value>
@@ -481,11 +458,9 @@
       <Value>../src/ASF/sam/drivers/pdc/pdc_uart_example</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
-  <armgcc.preprocessingassembler.general.AssemblerFlags>-DACCESS_USB_ENABLED -DARM_MATH_CM4=true -DBOARD=SAM4S_XPLAINED -DUDD_ENABLE -DVIRTUAL_MEMORY_ENABLE -D__SAM4S16C__ -Dprintf=iprintf -Dscanf=iscanf -DCONF_GFX_ILI9341_SDT028ATFT=1</armgcc.preprocessingassembler.general.AssemblerFlags>
+  <armgcc.preprocessingassembler.general.AssemblerFlags>-DACCESS_USB_ENABLED -DARM_MATH_CM4=true -DBOARD=SAM4S_XPLAINED -DUDD_ENABLE -D__SAM4S16C__ -Dprintf=iprintf -Dscanf=iscanf -DCONF_GFX_ILI9341_SDT028ATFT=1</armgcc.preprocessingassembler.general.AssemblerFlags>
   <armgcc.preprocessingassembler.general.IncludePaths>
     <ListValues>
-      <Value>../src/ASF/common/components/memory/virtual_mem</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
       <Value>../src</Value>
       <Value>../src/ASF/sam/drivers/usart</Value>
       <Value>../src/ASF/common/services/clock</Value>
@@ -510,9 +485,6 @@
       <Value>../src/ASF/common/services/usb/class/hid/device/kbd</Value>
       <Value>../src/ASF/common/services/usb/class/hid/device</Value>
       <Value>../src/ASF/common/services/usb/class/hid</Value>
-      <Value>../src/ASF/common/services/usb/class/hid/device/mouse</Value>
-      <Value>../src/ASF/common/services/usb/class/msc/device</Value>
-      <Value>../src/ASF/common/services/usb/class/msc</Value>
       <Value>../src/ASF/sam/boards</Value>
       <Value>../src/ASF/sam/boards/sam4s_xplained</Value>
       <Value>../src/ASF/common/boards</Value>
@@ -548,20 +520,16 @@
     <ListValues>
       <Value>DEBUG</Value>
       <Value>BOARD=SAM4S_XPLAINED</Value>
-      <Value>VIRTUAL_MEMORY_ENABLE</Value>
       <Value>ARM_MATH_CM4=true</Value>
       <Value>printf=iprintf</Value>
       <Value>UDD_ENABLE</Value>
       <Value>scanf=iscanf</Value>
-      <Value>ACCESS_USB_ENABLED</Value>
       <Value>__SAM4S16C__</Value>
       <Value>CONF_GFX_ILI9341_SDT028ATFT=1</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
   <armgcc.compiler.directories.IncludePaths>
     <ListValues>
-      <Value>../src/ASF/common/components/memory/virtual_mem</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
       <Value>../src</Value>
       <Value>../src/ASF/sam/drivers/usart</Value>
       <Value>../src/ASF/common/services/clock</Value>
@@ -586,9 +554,6 @@
       <Value>../src/ASF/common/services/usb/class/hid/device/kbd</Value>
       <Value>../src/ASF/common/services/usb/class/hid/device</Value>
       <Value>../src/ASF/common/services/usb/class/hid</Value>
-      <Value>../src/ASF/common/services/usb/class/hid/device/mouse</Value>
-      <Value>../src/ASF/common/services/usb/class/msc/device</Value>
-      <Value>../src/ASF/common/services/usb/class/msc</Value>
       <Value>../src/ASF/sam/boards</Value>
       <Value>../src/ASF/sam/boards/sam4s_xplained</Value>
       <Value>../src/ASF/common/boards</Value>
@@ -634,8 +599,6 @@
   <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam/utils/linker_scripts/sam4s/sam4s16/gcc/flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
-      <Value>../src/ASF/common/components/memory/virtual_mem</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
       <Value>../src</Value>
       <Value>../src/ASF/sam/drivers/usart</Value>
       <Value>../src/ASF/common/services/clock</Value>
@@ -660,9 +623,6 @@
       <Value>../src/ASF/common/services/usb/class/hid/device/kbd</Value>
       <Value>../src/ASF/common/services/usb/class/hid/device</Value>
       <Value>../src/ASF/common/services/usb/class/hid</Value>
-      <Value>../src/ASF/common/services/usb/class/hid/device/mouse</Value>
-      <Value>../src/ASF/common/services/usb/class/msc/device</Value>
-      <Value>../src/ASF/common/services/usb/class/msc</Value>
       <Value>../src/ASF/sam/boards</Value>
       <Value>../src/ASF/sam/boards/sam4s_xplained</Value>
       <Value>../src/ASF/common/boards</Value>
@@ -684,11 +644,9 @@
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
   <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
-  <armgcc.preprocessingassembler.general.AssemblerFlags>-DACCESS_USB_ENABLED -DARM_MATH_CM4=true -DBOARD=SAM4S_XPLAINED -DUDD_ENABLE -DVIRTUAL_MEMORY_ENABLE -D__SAM4S16C__ -Dprintf=iprintf -Dscanf=iscanf -DCONF_GFX_ILI9341_SDT028ATFT=1</armgcc.preprocessingassembler.general.AssemblerFlags>
+  <armgcc.preprocessingassembler.general.AssemblerFlags>-DACCESS_USB_ENABLED -DARM_MATH_CM4=true -DBOARD=SAM4S_XPLAINED -DUDD_ENABLE -D__SAM4S16C__ -Dprintf=iprintf -Dscanf=iscanf -DCONF_GFX_ILI9341_SDT028ATFT=1</armgcc.preprocessingassembler.general.AssemblerFlags>
   <armgcc.preprocessingassembler.general.IncludePaths>
     <ListValues>
-      <Value>../src/ASF/common/components/memory/virtual_mem</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
       <Value>../src</Value>
       <Value>../src/ASF/sam/drivers/usart</Value>
       <Value>../src/ASF/common/services/clock</Value>
@@ -713,9 +671,6 @@
       <Value>../src/ASF/common/services/usb/class/hid/device/kbd</Value>
       <Value>../src/ASF/common/services/usb/class/hid/device</Value>
       <Value>../src/ASF/common/services/usb/class/hid</Value>
-      <Value>../src/ASF/common/services/usb/class/hid/device/mouse</Value>
-      <Value>../src/ASF/common/services/usb/class/msc/device</Value>
-      <Value>../src/ASF/common/services/usb/class/msc</Value>
       <Value>../src/ASF/sam/boards</Value>
       <Value>../src/ASF/sam/boards/sam4s_xplained</Value>
       <Value>../src/ASF/common/boards</Value>
@@ -745,10 +700,6 @@
     <Folder Include="src\ASF\" />
     <Folder Include="src\ASF\common\" />
     <Folder Include="src\ASF\common\boards\" />
-    <Folder Include="src\ASF\common\components\" />
-    <Folder Include="src\ASF\common\components\display\" />
-    <Folder Include="src\ASF\common\components\memory\" />
-    <Folder Include="src\ASF\common\components\memory\virtual_mem\" />
     <Folder Include="src\ASF\common\services\" />
     <Folder Include="src\ASF\common\services\clock\" />
     <Folder Include="src\ASF\common\services\clock\sam4s\" />
@@ -765,8 +716,6 @@
     <Folder Include="src\ASF\common\services\sleepmgr\sam\" />
     <Folder Include="src\ASF\common\services\spi\" />
     <Folder Include="src\ASF\common\services\spi\sam_spi\" />
-    <Folder Include="src\ASF\common\services\storage\" />
-    <Folder Include="src\ASF\common\services\storage\ctrl_access\" />
     <Folder Include="src\ASF\common\services\usb\" />
     <Folder Include="src\ASF\common\services\usb\class\" />
     <Folder Include="src\ASF\common\services\usb\class\cdc\" />
@@ -779,8 +728,6 @@
     <Folder Include="src\ASF\common\services\usb\class\hid\device\" />
     <Folder Include="src\ASF\common\services\usb\class\hid\device\kbd\" />
     <Folder Include="src\ASF\common\services\usb\class\hid\device\mouse\" />
-    <Folder Include="src\ASF\common\services\usb\class\msc\" />
-    <Folder Include="src\ASF\common\services\usb\class\msc\device\" />
     <Folder Include="src\ASF\common\services\usb\udc\" />
     <Folder Include="src\ASF\common\utils\" />
     <Folder Include="src\ASF\common\utils\interrupt\" />
@@ -963,12 +910,6 @@
     <None Include="src\config\conf_example.h">
       <SubType>compile</SubType>
     </None>
-    <None Include="src\config\conf_access.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\config\conf_virtual_mem.h">
-      <SubType>compile</SubType>
-    </None>
     <None Include="atmel_devices_cdc.cat">
       <SubType>compile</SubType>
     </None>
@@ -1051,9 +992,6 @@
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\component\component_tc.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\ASF\common\services\usb\class\msc\usb_protocol_msc.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\common\services\clock\sysclk.h">
@@ -1206,9 +1144,6 @@
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\instance\instance_dacc.h">
       <SubType>compile</SubType>
     </None>
-    <None Include="src\ASF\common\services\usb\class\msc\spc_protocol.h">
-      <SubType>compile</SubType>
-    </None>
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\instance\instance_pmc.h">
       <SubType>compile</SubType>
     </None>
@@ -1246,9 +1181,6 @@
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\sam4s2a.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\ASF\common\services\usb\class\msc\device\udi_msc.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\thirdparty\CMSIS\Lib\GCC\libarm_cortexM4l_math.a">
@@ -1368,9 +1300,6 @@
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\sam4sa16b.h">
       <SubType>compile</SubType>
     </None>
-    <None Include="src\ASF\common\services\usb\class\msc\sbc_protocol.h">
-      <SubType>compile</SubType>
-    </None>
     <None Include="src\ASF\thirdparty\CMSIS\Include\core_cmFunc.h">
       <SubType>compile</SubType>
     </None>
@@ -1383,9 +1312,6 @@
     <None Include="src\ASF\common\boards\board.h">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="src\ASF\common\components\memory\virtual_mem\virtual_mem.c">
-      <SubType>compile</SubType>
-    </Compile>
     <None Include="src\ASF\common\services\ioport\ioport.h">
       <SubType>compile</SubType>
     </None>
@@ -1419,9 +1345,6 @@
     <None Include="src\ASF\sam\utils\preprocessor\mrepeat.h">
       <SubType>compile</SubType>
     </None>
-    <None Include="src\ASF\common\components\memory\virtual_mem\virtual_mem.h">
-      <SubType>compile</SubType>
-    </None>
     <Compile Include="src\ASF\common\services\clock\sam4s\sysclk.c">
       <SubType>compile</SubType>
     </Compile>
@@ -1438,9 +1361,6 @@
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\sam4sd16c.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\ASF\common\services\usb\class\hid\device\mouse\udi_hid_mouse.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\instance\instance_wdt.h">
@@ -1464,16 +1384,10 @@
     <Compile Include="src\ASF\common\services\sleepmgr\sam\sleepmgr.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\ASF\common\services\storage\ctrl_access\ctrl_access.c">
-      <SubType>compile</SubType>
-    </Compile>
     <None Include="src\ASF\sam\utils\status_codes.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\sam\utils\cmsis\sam4s\include\sam4sd32c.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\ASF\common\services\storage\ctrl_access\ctrl_access.h">
       <SubType>compile</SubType>
     </None>
     <Compile Include="src\ASF\common\services\usb\class\cdc\device\udi_cdc.c">
@@ -1486,9 +1400,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\ASF\common\services\usb\class\hid\device\udi_hid.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\ASF\common\services\usb\class\msc\device\udi_msc.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\ASF\common\services\usb\udc\udc.c">
