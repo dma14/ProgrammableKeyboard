@@ -775,6 +775,7 @@
     <Folder Include="src\config\" />
     <Folder Include="src\FIFO" />
     <Folder Include="src\Display" />
+    <Folder Include="src\comm" />
     <Folder Include="src\ui" />
   </ItemGroup>
   <ItemGroup>
@@ -820,6 +821,12 @@
     <None Include="src\config\conf_spi_master.h">
       <SubType>compile</SubType>
     </None>
+    <Compile Include="src\comm\xmodem.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\comm\xmodem.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\config\conf_iTC.h">
       <SubType>compile</SubType>
     </Compile>

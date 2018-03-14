@@ -74,7 +74,7 @@ __always_inline static void itc_wait_for_send_done(void)
  */
 __always_inline static void itc_wait_for_busy_done(void)
 {
-#if defined(CONF_ITC_SPI)
+#if 0 //defined(CONF_ITC_SPI)
 	/* Wait busy line to go high */
 	while (!ioport_get_pin_level(CONF_ITC_BUSY_PIN)) {
 		/* Do nothing */

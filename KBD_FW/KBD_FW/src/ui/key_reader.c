@@ -9,7 +9,7 @@
 #include "key_reader.h"
 #include "delay.h"
 
-#define KEY_ROWS 3
+#define KEY_ROWS 4
 #define KEY_COLS 3
 
 static int wait_time = 1000;
@@ -28,13 +28,17 @@ struct {
 	{false, HID_6},
 	{false, HID_7},
 	{false, HID_8},
-	{false, HID_9}
+	{false, HID_9},
+	{false, HID_A},
+	{false, HID_B},
+	{false, HID_C}
 };
 
 static uint8_t row_io_pins[KEY_ROWS] = {
 	GPIO_ROW_0,
 	GPIO_ROW_1,
-	GPIO_ROW_2
+	GPIO_ROW_2,
+	GPIO_ROW_3
 	};
 	
 static uint8_t col_io_pins[KEY_COLS] = {
@@ -58,7 +62,7 @@ void keyboard_read(fifo_desc_t *fifo)
 		
 		// Check rows status: 1 = unpressed, 0 = pressed
 		for (int row_idx = 0; row_idx < KEY_ROWS; row_idx++) {
-			int key_status_idx = row_idx + col_idx * KEY_COLS;
+			int key_status_idx = row_idx + col_idx * KEY_ROWS;
 			
 			// Check if the switch status id different than the stored previous status
 			bool row_status = gpio_pin_is_high(row_io_pins[row_idx]);

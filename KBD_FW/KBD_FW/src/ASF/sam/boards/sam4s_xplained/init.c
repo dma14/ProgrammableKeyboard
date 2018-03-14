@@ -74,6 +74,7 @@ void board_init(void)
 	gpio_configure_pin(GPIO_ROW_0, GPIO_ROW_0_FLAGS);
 	gpio_configure_pin(GPIO_ROW_1, GPIO_ROW_1_FLAGS);
 	gpio_configure_pin(GPIO_ROW_2, GPIO_ROW_2_FLAGS);
+	gpio_configure_pin(GPIO_ROW_3, GPIO_ROW_3_FLAGS);
 
 	/* Configure LED pins */
 	gpio_configure_pin(LED0_GPIO, LED0_FLAGS);
