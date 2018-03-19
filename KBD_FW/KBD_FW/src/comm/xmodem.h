@@ -63,8 +63,8 @@ extern "C" {
  *
  * @{
  */
-
-uint32_t xmodem_receive_file( usart_if usart, void (*store_fn)( uint8_t*, uint32_t, uint32_t ) );
+uint32_t xmodem_receive_file(int8_t *p_buffer);
+//uint32_t xmodem_receive_file( usart_if usart, void (*store_fn)( uint8_t*, uint32_t, uint32_t ) );
 
 /// @cond 0
 /**INDENT-OFF**/

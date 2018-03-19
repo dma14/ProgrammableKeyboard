@@ -51,6 +51,7 @@
 #include "uart.h"
 #include "spi_master.h"
 #include "conf_iTC.h"
+#include "comm.h"
 
 static volatile bool main_b_keyboard_enable = false;
 static volatile bool main_b_cdc_enable = false;
@@ -106,10 +107,13 @@ int main(void)
 	
 	// Configure UART Console
 	configure_console();
+	
+	comm_init();
 
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt
 	while (true) {
+		comm_process();
 		sleepmgr_enter_sleep();
 	}
 
@@ -214,7 +218,7 @@ bool main_cdc_enable(uint8_t port)
 {
 	main_b_cdc_enable = true;
 	// Open communication
-	uart_open(port);
+//	uart_open(port);
 	return true;
 }
 
@@ -222,7 +226,7 @@ void main_cdc_disable(uint8_t port)
 {
 	main_b_cdc_enable = false;
 	// Close communication
-	uart_close(port);
+//	uart_close(port);
 }
 
 void main_cdc_set_dtr(uint8_t port, bool b_enable)

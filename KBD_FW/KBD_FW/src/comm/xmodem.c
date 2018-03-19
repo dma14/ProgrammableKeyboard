@@ -41,6 +41,7 @@
  *
  */
 
+#include <asf.h>
 #include "xmodem.h"
 #include "sysclk.h"
 
@@ -63,6 +64,12 @@ extern "C" {
 #define CRC16POLY   0x1021  /**< CRC 16 polynom */
 #define PKTLEN_128  128u    /**< Packet length */
 
+// Blocking version of UDC Get Character 
+char xgetc() {
+	while ( !(udi_cdc_is_rx_ready()) );
+	return udi_cdc_getc();	
+}
+
 /* Global Variables */
 int8_t	ul_buffer[PKTLEN_128+1];
 
@@ -75,7 +82,7 @@ int8_t	ul_buffer[PKTLEN_128+1];
  *
  * \return Calculated CRC value
  */
-static uint16_t xmodem_get_bytes(usart_if usart, int8_t *p_data,
+static uint16_t xmodem_get_bytes(int8_t *p_data,
 		uint32_t ul_length)
 {
 	uint16_t us_crc = 0;
@@ -83,7 +90,7 @@ static uint16_t xmodem_get_bytes(usart_if usart, int8_t *p_data,
 	uint8_t c_char;
 
 	for (i = 0; i < ul_length; ++i) {
-		usart_serial_getchar(usart, &c_char);
+		c_char = xgetc();
 		us_crc = us_crc ^ (int32_t) c_char << 8;
 		for (j = 0; j < 8; j++) {
 			if (us_crc & 0x8000) {
@@ -107,25 +114,25 @@ static uint16_t xmodem_get_bytes(usart_if usart, int8_t *p_data,
  *
  * \return 0 for sucess and other value for XMODEM error
  */
-static int32_t xmodem_get_packet(usart_if usart, int8_t *p_data,
+static int32_t xmodem_get_packet(int8_t *p_data,
 		uint8_t uc_sno)
 {
 	uint8_t uc_cp_seq[2], uc_temp[2];
 	uint16_t us_crc, us_xcrc;
 
-	xmodem_get_bytes(usart, (int8_t *)uc_cp_seq, 2);
+	xmodem_get_bytes((int8_t *)uc_cp_seq, 2);
 
-	us_xcrc = xmodem_get_bytes(usart, p_data, PKTLEN_128);
+	us_xcrc = xmodem_get_bytes(p_data, PKTLEN_128);
 
 	/* An "endian independent way to combine the CRC bytes. */
-	usart_serial_getchar(usart, &uc_temp[0]);
-	usart_serial_getchar(usart, &uc_temp[1]);
+	uc_temp[0] = xgetc();
+	uc_temp[1] = xgetc();
 
 	us_crc = uc_temp[0] << 8;
 	us_crc += uc_temp[1];
 
 	if( (us_crc != us_xcrc) || (uc_cp_seq[0] != uc_sno) || (uc_cp_seq[1] != (uc_sno ^ 0xFF)) ) {
-		usart_serial_putchar(usart, XMDM_CAN);
+		udi_cdc_putc(XMDM_CAN);
 		return (-1);
 	}
 
@@ -139,9 +146,11 @@ static int32_t xmodem_get_packet(usart_if usart, int8_t *p_data,
  * \param p_buffer  Pointer to receive buffer
  *
  * \return received file size
+ * \return 0: no data
+ * \return -1: error encountered during file receive 
  */
-//uint32_t xmodem_receive_file(usart_if usart, int8_t *p_buffer)
-uint32_t xmodem_receive_file( usart_if usart, void (*store_fn)( uint8_t*, uint32_t, uint32_t ) )
+uint32_t xmodem_receive_file(int8_t *p_buffer)
+//uint32_t xmodem_receive_file( usart_if usart, void (*store_fn)( uint8_t*, uint32_t, uint32_t ) )
 {
 	uint32_t ul_timeout;
 	uint8_t c_char;
@@ -150,43 +159,45 @@ uint32_t xmodem_receive_file( usart_if usart, void (*store_fn)( uint8_t*, uint32
 	uint32_t ul_size = 0;
 
 	/* Disable all interrupts */
-	cpu_irq_disable();
+	// cpu_irq_disable();
 
 	/* Wait and put 'C' till start XMODEM transfer */
-	while (1) {
-		usart_serial_putchar(usart, 'C');
-		ul_timeout = (sysclk_get_peripheral_hz() / 10);
-		while (!(usart_serial_is_rx_ready(usart)) && ul_timeout) {
-			ul_timeout--;
-		}
-		if (usart_serial_is_rx_ready(usart)) {
-			break;
+	if (udi_cdc_is_tx_ready()) {
+		udi_cdc_putc('C');
+	} else {
+		return 0;
+	}
+	
+	ul_timeout = (sysclk_get_peripheral_hz() / 100);
+	while (!(udi_cdc_is_rx_ready())) {
+		if (ul_timeout-- == 0) {
+			return 0;
 		}
 	}
 
 	/* Begin to receive the data */
 	l_done = 0;
 	while (l_done == 0) {
-		usart_serial_getchar(usart, &c_char);
+		c_char = xgetc();
 
 		switch (c_char) {
 		/* Start of transfer */
 		case XMDM_SOH:
-			l_done = xmodem_get_packet(usart, ul_buffer, uc_sno);
+			l_done = xmodem_get_packet(p_buffer+ul_size, uc_sno);
 			if (l_done == 0) {
 				/* Got a packet */
-				store_fn( (uint8_t *)ul_buffer, PKTLEN_128, ul_size );
+				//store_fn( (uint8_t *)ul_buffer, PKTLEN_128, ul_size );
 				uc_sno++;
 				ul_size += PKTLEN_128;
 			}
 			if( l_done != -1 ) {
-				usart_serial_putchar(usart, XMDM_ACK);
+				udi_cdc_putc(XMDM_ACK);
 			}
 			break;
 
 		/* End of transfer */
 		case XMDM_EOT:
-			usart_serial_putchar(usart, XMDM_ACK);
+			udi_cdc_putc(XMDM_ACK);
 			l_done = ul_size;
 			break;
 
@@ -199,7 +210,7 @@ uint32_t xmodem_receive_file( usart_if usart, void (*store_fn)( uint8_t*, uint32
 	}
 
 	/* Enable interrupts */
-	cpu_irq_enable();
+	// cpu_irq_enable();
 
 	return ul_size;
 }

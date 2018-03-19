@@ -62,6 +62,7 @@
 
 static sam_usart_opt_t usart_options;
 
+#if 0
 ISR(USART_HANDLER)
 {
 	uint32_t sr = usart_get_status(USART_BASE);
@@ -105,6 +106,7 @@ ISR(USART_HANDLER)
 		}
 	}
 }
+#endif
 
 
 void uart_rx_notify(uint8_t port)

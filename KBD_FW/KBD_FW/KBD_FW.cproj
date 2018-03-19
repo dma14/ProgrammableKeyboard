@@ -327,6 +327,17 @@
     <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
     <ResetRule>0</ResetRule>
     <EraseKey />
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -575,6 +586,7 @@
       <Value>../src/ASF/sam/drivers/pdc</Value>
       <Value>../src/ASF/sam/drivers/pdc/pdc_uart_example</Value>
       <Value>../src/Display</Value>
+      <Value>../src/comm</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
@@ -821,6 +833,12 @@
     <None Include="src\config\conf_spi_master.h">
       <SubType>compile</SubType>
     </None>
+    <Compile Include="src\comm\comm.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\comm\comm.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\comm\xmodem.c">
       <SubType>compile</SubType>
     </Compile>
