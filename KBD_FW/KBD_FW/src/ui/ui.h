@@ -70,6 +70,9 @@ typedef struct key_info {
 //! \brief Initializes the user interface
 void ui_init(void);
 
+// Refreshes the ui's screen. Clears the flag indicating an update is required.
+void ui_refresh_screen(void);
+
 // Sets a key icon - should this be in a separate place?
 void ui_set_key_icon(uint8_t index, struct gfx_bitmap* bmp);
 
@@ -78,6 +81,9 @@ void ui_set_key_scancode(uint8_t index, uint8_t scancode);
 
 // Set the internal flag for the ui to update the screen
 void ui_set_needs_refresh(void);
+
+// Gets the internal flag for the ui to update the screen
+bool ui_get_needs_refresh(void);
 
 //! \brief Enters the user interface in power down mode
 void ui_powerdown(void);

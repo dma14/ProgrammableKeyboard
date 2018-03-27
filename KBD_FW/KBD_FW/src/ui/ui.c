@@ -238,7 +238,6 @@ void ui_init(void)
 	
 	/* Clear the screen */
 	gfx_draw_filled_rect(0, 0, gfx_get_width(), gfx_get_height(), GFX_COLOR_WHITE);
-	itc_refresh_screen();
 	
 	// Initialize the key array
 	for (int row = 0; row < KEY_ROW_NUM; ++row) {
@@ -255,7 +254,12 @@ void ui_init(void)
 			ui_set_key_icon(idx, &testText);
 		}
 	}
-itc_refresh_screen();
+	ui_set_needs_refresh();
+}
+
+void ui_refresh_screen() {
+	itc_refresh_screen();
+	ui_screen_needs_update = false;
 }
 
 void ui_set_key_icon(uint8_t index, struct gfx_bitmap* bmp) {
@@ -271,6 +275,10 @@ void ui_set_key_scancode(uint8_t index, uint8_t scancode) {
 
 void ui_set_needs_refresh() {
 	ui_screen_needs_update = true;
+}
+
+bool ui_get_needs_refresh() {
+	return ui_screen_needs_update;
 }
 
 void ui_powerdown(void)
@@ -366,10 +374,6 @@ void ui_process(uint16_t framenumber)
 	static uint16_t cpt_sof = 0;
 	
 	if (framenumber % 100 == 0) {
-		if (ui_screen_needs_update) {
-			itc_refresh_screen();
-			ui_screen_needs_update = false;
-		}
 		
 		// Check for a key press
 		keyboard_read(&key_event_fifo_desc);

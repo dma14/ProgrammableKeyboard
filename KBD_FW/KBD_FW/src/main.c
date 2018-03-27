@@ -53,6 +53,9 @@
 #include "conf_iTC.h"
 #include "comm.h"
 
+#define MAIN_LOOP_DELAY_TIME	10
+#define SCREEN_UPDATE_CHECK_PERIOD	2
+
 static volatile bool main_b_keyboard_enable = false;
 static volatile bool main_b_cdc_enable = false;
 
@@ -112,7 +115,21 @@ int main(void)
 
 	// The main loop manages only the power mode
 	// because the USB management is done by interrupt
+	uint32_t cycles_since_update_req = 0;
 	while (true) {
+		delay_ms(MAIN_LOOP_DELAY_TIME);
+		
+		// Increment the cycle count if we need an update
+		if (ui_get_needs_refresh()) {
+			cycles_since_update_req++;
+		}
+		
+		// If the cycle count hits the required number, refresh the screen
+		if (cycles_since_update_req == SCREEN_UPDATE_CHECK_PERIOD) {
+			ui_refresh_screen();
+			cycles_since_update_req = 0;
+			
+		}
 		comm_process();
 		sleepmgr_enter_sleep();
 	}
