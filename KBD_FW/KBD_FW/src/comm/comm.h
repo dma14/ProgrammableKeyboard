@@ -9,11 +9,13 @@
 #ifndef COMM_H_
 #define COMM_H_
 
-#define FILE_READ_BUFFER_SIZE		512//12*(2+1+1+1+1+3*50*50)
+#define BYTES_PER_PIXEL				1
+#define FILE_READ_BUFFER_SIZE		12*(2+1+1+1+1+BYTES_PER_PIXEL*50*50)
+#define FILE_SECTION_IDENTIFIER		0xDEAD
 
-void comm_init();
+void comm_init(void);
 
-void comm_process();
+void comm_process(void);
 
 
 

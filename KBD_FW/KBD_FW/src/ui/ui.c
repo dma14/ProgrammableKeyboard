@@ -47,34 +47,28 @@
 #include <asf.h>
 #include "ui.h"
 #include "key_reader.h"
-#include "key_icons.h"
 #include "fifo.h"
 #include "Bitmaps.h"
 
-#define KEY_ROW_NUM		4
-#define KEY_COL_NUM		3
-#define KEY_COUNT		KEY_ROW_NUM*KEY_COL_NUM
-#define KEY_ICON_MAX_DIM  50
-
-static struct  {
+static struct {
 	gfx_coord_t x;
 	gfx_coord_t y;
-	key_icon_t* icon;
-	bool req_update;
-} key_icon_array[KEY_COUNT] = {
-	{60, 50, NULL, 0},
-	{152, 50, NULL, 0},
-	{244, 50, NULL, 0},
-	{336, 50, NULL, 0},
-	{60, 142, NULL, 0},
-	{152, 142, NULL, 0},
-	{244, 142, NULL, 0},
-	{336, 142, NULL, 0},
-	{60, 234, NULL, 0},
-	{152, 234, NULL, 0},
-	{244, 234, NULL, 0},
-	{336, 234, NULL, 0}
+} key_loc_array[KEY_ROW_NUM][KEY_COL_NUM] = {
+	{{60, 50},
+	 {152, 50},
+	 {244, 50}},
+	{{336, 50},
+	 {60, 142},
+	 {152, 142}},
+	{{244, 142},
+	 {336, 142},
+	 {60, 234}},
+	{{152, 234},
+	 {244, 234},
+	 {336, 234}}
 	};
+	
+key_info_t keys[KEY_ROW_NUM][KEY_COL_NUM];
 
 #define  MOVE_UP     0
 #define  MOVE_RIGHT  1
@@ -207,6 +201,9 @@ static struct {
 fifo_desc_t key_event_fifo_desc;
 uint8_t     key_event_buf[KEY_EVENT_FIFO_SIZE];
 
+// "Dirty bit" to signal that the ui should update the screen
+bool ui_screen_needs_update = false;
+
 // Interrupt on "pin change" from PA15 to do wakeup on USB
 // Note:
 // This interrupt is enable when the USB host enable remotewakeup feature
@@ -243,17 +240,37 @@ void ui_init(void)
 	gfx_draw_filled_rect(0, 0, gfx_get_width(), gfx_get_height(), GFX_COLOR_WHITE);
 	itc_refresh_screen();
 	
-	// Initialize Key Icons
-	for (int i = 0; i < KEY_COUNT; i++) {
-		key_icon_array[i].icon = key_icon_init(key_icon_array[i].x, key_icon_array[i].y, KEY_ICON_MAX_DIM, KEY_ICON_MAX_DIM, KEY_ICON_MAX_DIM);
+	// Initialize the key array
+	for (int row = 0; row < KEY_ROW_NUM; ++row) {
+		for (int col = 0; col < KEY_COL_NUM; ++col) {
+			int idx = ROW_COL_TO_IDX(row, col);
+			key_info_t *key = malloc(sizeof(key_info_t));
+			key->key_id = idx;
+			key->key_code = HID_0;
+			key->centre_x = key_loc_array[row][col].x;
+			key->centre_y = key_loc_array[row][col].y;
+			key->max_dim = KEY_ICON_MAX_DIM;
+			key->pressed = false;
+			keys[row][col] = *key;
+			ui_set_key_icon(idx, &testText);
+		}
 	}
-	
-	// Set Initial Key Icons
-	for (int i = 0; i < KEY_COUNT; i++) {
-		key_icon_set(key_icon_array[i].icon, &testText);
-		key_icon_update(key_icon_array[i].icon);
-	}
-	itc_refresh_screen();
+itc_refresh_screen();
+}
+
+void ui_set_key_icon(uint8_t index, struct gfx_bitmap* bmp) {
+	key_info_t key = keys[IDX_TO_ROW(index)][IDX_TO_COL(index)];
+	gfx_coord_t adjusted_x = ((key.max_dim) - (bmp->width))/2 + (key.centre_x);
+	gfx_coord_t adjusted_y = ((key.max_dim) - (bmp->height))/2 + (key.centre_y);
+	gfx_draw_bitmap(bmp, adjusted_x, adjusted_y);
+}
+
+void ui_set_key_scancode(uint8_t index, uint8_t scancode) {
+	keys[IDX_TO_ROW(index)][IDX_TO_COL(index)].key_code = scancode;
+}
+
+void ui_set_needs_refresh() {
+	ui_screen_needs_update = true;
 }
 
 void ui_powerdown(void)
@@ -347,29 +364,37 @@ void ui_process(uint16_t framenumber)
 	static uint8_t u8_sequence_pos = 0;
 	uint8_t u8_value;
 	static uint16_t cpt_sof = 0;
-	char key_result;
 	
 	if (framenumber % 100 == 0) {
+		if (ui_screen_needs_update) {
+			itc_refresh_screen();
+			ui_screen_needs_update = false;
+		}
+		
 		// Check for a key press
 		keyboard_read(&key_event_fifo_desc);
 		
 		// If the key event queue has elements in it, send the first event.
 		if (!fifo_is_empty(&key_event_fifo_desc)) {
+			// Read the direction and key_id for the event.
 			uint8_t direction;
 			fifo_pull_uint8(&key_event_fifo_desc, &direction);
-			uint8_t keycode;
-			fifo_pull_uint8(&key_event_fifo_desc, &keycode);
+			uint8_t key_id;
+			fifo_pull_uint8(&key_event_fifo_desc, &key_id);
+			// Convert the key_id to row/col index
+			int row_idx = IDX_TO_ROW(key_id);
+			int col_idx = IDX_TO_COL(key_id);
 			
 			if (direction == key_event_up) {
-				success = udi_hid_kbd_up(keycode);
+				success = udi_hid_kbd_up(keys[row_idx][col_idx].key_code);
 			} else if (direction == key_event_down) {
-				success = udi_hid_kbd_down(keycode);
+				success = udi_hid_kbd_down(keys[row_idx][col_idx].key_code);
 			}
 			
 			// If it didn't work, re-add the event to the queue to try again
 			if (!success) {
 				fifo_push_uint8(&key_event_fifo_desc, direction);
-				fifo_push_uint8(&key_event_fifo_desc, keycode);
+				fifo_push_uint8(&key_event_fifo_desc, key_id);
 				printf("Failed key event.");
 			}
 		}

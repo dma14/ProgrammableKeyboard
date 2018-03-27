@@ -47,8 +47,37 @@
 #ifndef _UI_H_
 #define _UI_H_
 
+#include "gfx.h"
+
+#define KEY_ROW_NUM		4
+#define KEY_COL_NUM		3
+#define KEY_COUNT		KEY_ROW_NUM*KEY_COL_NUM
+#define KEY_ICON_MAX_DIM  50
+
+#define ROW_COL_TO_IDX(ROW, COL)	ROW+COL*KEY_ROW_NUM
+#define IDX_TO_ROW(IDX)				IDX%KEY_ROW_NUM
+#define IDX_TO_COL(IDX)				IDX/KEY_ROW_NUM
+
+typedef struct key_info {
+	uint8_t key_id;
+	uint8_t key_code;
+	gfx_coord_t centre_x;
+	gfx_coord_t centre_y;
+	gfx_coord_t max_dim;
+	bool pressed;
+	} key_info_t;
+
 //! \brief Initializes the user interface
 void ui_init(void);
+
+// Sets a key icon - should this be in a separate place?
+void ui_set_key_icon(uint8_t index, struct gfx_bitmap* bmp);
+
+// Set the scancode for a key at the given index.
+void ui_set_key_scancode(uint8_t index, uint8_t scancode);
+
+// Set the internal flag for the ui to update the screen
+void ui_set_needs_refresh(void);
 
 //! \brief Enters the user interface in power down mode
 void ui_powerdown(void);

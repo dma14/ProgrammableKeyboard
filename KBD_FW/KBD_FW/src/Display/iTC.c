@@ -74,7 +74,7 @@ __always_inline static void itc_wait_for_send_done(void)
  */
 __always_inline static void itc_wait_for_busy_done(void)
 {
-#if 0 //defined(CONF_ITC_SPI)
+#if defined(CONF_ITC_SPI)
 	/* Wait busy line to go high */
 	while (!ioport_get_pin_level(CONF_ITC_BUSY_PIN)) {
 		/* Do nothing */
@@ -186,7 +186,7 @@ static void itc_set_image_bit(itc_coord_t x, itc_coord_t y, itc_color_t color)
 	uint8_t bit_idx = 7 - (x % 8); // Position of the bit we want to set in the byte.
 	
 	uint8_t data_mask;
-	if (color == ITC_WHITE) {
+	if (color > ITC_THRES_BLACK) {
 		// For white color, we clear the bit
 		data_mask = ~((uint8_t) 1 << bit_idx);
 		image_data_buffer[buf_idx] = data_mask & data_byte;
@@ -430,48 +430,6 @@ void itc_copy_pixels_from_screen(itc_color_t *pixels, uint32_t count)
 	}
 }
 
-/** 
- * Sens an update to the display screen, pushing any changes made since the last refresh.
- */
-void itc_refresh_screen(void)
-{
-	itc_wait_for_busy_done();
-	// Send the actual data to the display controllers frame data register
-	itc_send_command(ITC_CMD_BLACK_FRAME_DATA, true);
-	// Send each byte from our buffer
-	for (int i = 0; i < ITC_SCREEN_BUFFER_SIZE; i++)
-	{
-		itc_send_byte((uint8_t) image_data_buffer[i]);
-	}
-	itc_wait_for_send_done();
-	itc_deselect_chip();
-	
-	// Send the red frame (all 0s)
-	itc_send_command(ITC_CMD_RED_FRAME_DATA, true);
-	// Send each byte from our buffer
-	for (int i = 0; i < ITC_SCREEN_BUFFER_SIZE; i++)
-	{
-		itc_send_byte((uint8_t) 0);
-	}
-	itc_wait_for_send_done();
-	itc_deselect_chip();
-	
-	// Process for sending an update command
-	itc_wait_for_busy_done();
-	itc_send_command(ITC_CMD_POWER_ON, false);
-	itc_wait_for_send_done();
-	itc_deselect_chip();
-	
-	itc_wait_for_busy_done();
-	itc_send_command(ITC_CMD_REFRESH, false);
-	itc_wait_for_send_done();
-	itc_deselect_chip();
-	
-	itc_wait_for_busy_done();
-	
-	return;
-}
-
 /**
  * \internal
  * \brief Initialize the hardware interface to the controller
@@ -582,6 +540,19 @@ static void itc_reset_display(void)
 	itc_deselect_chip();
 }
 
+static void itc_power_off(void) {
+	itc_send_command(ITC_CMD_DC_TOGGLE, false);
+	itc_wait_for_send_done();
+	itc_deselect_chip();
+	
+	itc_wait_for_busy_done();
+	
+	ioport_set_pin_level(CONF_ITC_PANEL_ON_PIN, false);
+	ioport_set_pin_level(CONF_ITC_RESET_PIN, false);
+	itc_select_chip();
+	
+}
+
 /**
  * \brief Initialize the controller
  *
@@ -594,12 +565,56 @@ void itc_init(void)
 {
 	/* Initialize the communication interface */
 	itc_interface_init();
+}
+/** 
+ * Sens an update to the display screen, pushing any changes made since the last refresh.
+ */
+void itc_refresh_screen(void)
+{
 
 	/* Reset the display */
 	itc_reset_display();
 
 	/* Write all the controller registers with correct values */
 	itc_controller_init_registers();
+	
+	
+	itc_wait_for_busy_done();
+	// Send the actual data to the display controllers frame data register
+	itc_send_command(ITC_CMD_BLACK_FRAME_DATA, true);
+	// Send each byte from our buffer
+	for (int i = 0; i < ITC_SCREEN_BUFFER_SIZE; i++)
+	{
+		itc_send_byte((uint8_t) image_data_buffer[i]);
+	}
+	itc_wait_for_send_done();
+	itc_deselect_chip();
+	
+	// Send the red frame (all 0s)
+	itc_send_command(ITC_CMD_RED_FRAME_DATA, true);
+	// Send each byte from our buffer
+	for (int i = 0; i < ITC_SCREEN_BUFFER_SIZE; i++)
+	{
+		itc_send_byte((uint8_t) 0);
+	}
+	itc_wait_for_send_done();
+	itc_deselect_chip();
+	
+	// Process for sending an update command
+	itc_wait_for_busy_done();
+	itc_send_command(ITC_CMD_POWER_ON, false);
+	itc_wait_for_send_done();
+	itc_deselect_chip();
+	
+	itc_wait_for_busy_done();
+	itc_send_command(ITC_CMD_REFRESH, false);
+	itc_wait_for_send_done();
+	itc_deselect_chip();
+	
+	itc_wait_for_busy_done();
+	itc_power_off();
+	
+	return;
 }
 
 /**

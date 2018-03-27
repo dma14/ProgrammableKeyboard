@@ -62,7 +62,7 @@ void keyboard_read(fifo_desc_t *fifo)
 		
 		// Check rows status: 1 = unpressed, 0 = pressed
 		for (int row_idx = 0; row_idx < KEY_ROWS; row_idx++) {
-			int key_status_idx = row_idx + col_idx * KEY_ROWS;
+			int key_status_idx = ROW_COL_TO_IDX(row_idx, col_idx);
 			
 			// Check if the switch status id different than the stored previous status
 			bool row_status = gpio_pin_is_high(row_io_pins[row_idx]);
@@ -73,7 +73,7 @@ void keyboard_read(fifo_desc_t *fifo)
 				} else {
 					fifo_push_uint8(fifo, key_event_down);
 				}
-				fifo_push_uint8(fifo, key_info[key_status_idx].key_code);
+				fifo_push_uint8(fifo, key_status_idx);
 				
 				// Update the status of the key in key_info
 				key_info[key_status_idx].b_pressed = !key_info[key_status_idx].b_pressed;

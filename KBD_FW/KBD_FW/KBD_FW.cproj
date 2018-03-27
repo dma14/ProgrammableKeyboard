@@ -866,12 +866,6 @@
     <Compile Include="src\ui\Bitmaps.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\ui\key_icons.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\ui\key_icons.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="src\ui\key_reader.c">
       <SubType>compile</SubType>
     </Compile>

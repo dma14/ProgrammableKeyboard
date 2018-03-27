@@ -66,17 +66,14 @@ extern "C" {
 /** This macro generates a 16-bit native color for the display from a
  *  24-bit RGB value.
  */
-#define ITC_COLOR(r, g, b)\
-	Swap16((((uint16_t)b) >> 3) |\
-	       ((((uint16_t)g) << 3) & 0x07E0) |\
-	       ((((uint16_t)r) << 8) & 0xf800))
+#define ITC_COLOR(r, g, b) r
 		   
 #define ITC_WHITE ITC_COLOR(255, 255, 255)
-
+#define ITC_THRES_BLACK	10
 #define ITC_BLACK ITC_COLOR(0, 0, 0)
 
 /** Type define for an integer type large enough to store a pixel color. */
-typedef uint16_t itc_color_t;
+typedef uint8_t itc_color_t;
 
 /** Type define for an integer type large enough to store a pixel coordinate.
  */
