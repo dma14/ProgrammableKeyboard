@@ -249,7 +249,7 @@ void ui_init(void)
 			int idx = ROW_COL_TO_IDX(row, col);
 			key_info_t *key = malloc(sizeof(key_info_t));
 			key->key_id = idx;
-			key->key_code = HID_0;
+			key->key_code = HID_A+idx;
 			key->centre_x = key_loc_array[row][col].x;
 			key->centre_y = key_loc_array[row][col].y;
 			key->max_dim = KEY_ICON_MAX_DIM;
@@ -380,7 +380,7 @@ void ui_process(uint16_t framenumber)
 	if (framenumber % 100 == 0) {
 		
 		// Check for a key press
-		keyboard_read(&key_event_fifo_desc);
+		keyboard_read(&key_event_fifo_desc, keys);
 		
 		// If the key event queue has elements in it, send the first event.
 		if (!fifo_is_empty(&key_event_fifo_desc)) {
