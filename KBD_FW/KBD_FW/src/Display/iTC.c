@@ -528,9 +528,11 @@ static void itc_controller_init_registers(void)
  */
 static void itc_reset_display(void)
 {
+	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, true);
+	delay_ms(5);
+	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, false);
 	ioport_set_pin_level(CONF_ITC_PANEL_ON_PIN, false);
 	ioport_set_pin_level(CONF_ITC_RESET_PIN, false);
-	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, false);
 	ioport_set_pin_level(CONF_ITC_DC_PIN, false);
 	delay_ms(10);
 	ioport_set_pin_level(CONF_ITC_PANEL_ON_PIN, true);
@@ -549,6 +551,8 @@ static void itc_power_off(void) {
 	
 	ioport_set_pin_level(CONF_ITC_PANEL_ON_PIN, false);
 	ioport_set_pin_level(CONF_ITC_RESET_PIN, false);
+	ioport_set_pin_level(CONF_ITC_DC_PIN, false);
+	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, true);
 	itc_select_chip();
 	
 }
