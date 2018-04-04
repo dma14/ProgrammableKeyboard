@@ -54,7 +54,7 @@
 #include "comm.h"
 
 #define MAIN_LOOP_DELAY_TIME	10
-#define SCREEN_UPDATE_CHECK_PERIOD	2
+#define SCREEN_UPDATE_CHECK_PERIOD	1
 
 static volatile bool main_b_keyboard_enable = false;
 static volatile bool main_b_cdc_enable = false;

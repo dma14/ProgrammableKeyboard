@@ -553,7 +553,7 @@ static void itc_power_off(void) {
 	ioport_set_pin_level(CONF_ITC_RESET_PIN, false);
 	ioport_set_pin_level(CONF_ITC_DC_PIN, false);
 	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, true);
-	itc_select_chip();
+	//itc_select_chip();
 	
 }
 

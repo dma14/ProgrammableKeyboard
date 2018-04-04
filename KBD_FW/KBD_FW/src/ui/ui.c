@@ -377,7 +377,7 @@ void ui_process(uint16_t framenumber)
 	uint8_t u8_value;
 	static uint16_t cpt_sof = 0;
 	
-	if (framenumber % 100 == 0) {
+	if (framenumber % 20 == 0) {
 		
 		// Check for a key press
 		keyboard_read(&key_event_fifo_desc, keys);
