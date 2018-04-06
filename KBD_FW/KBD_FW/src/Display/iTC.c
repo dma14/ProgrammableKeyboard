@@ -8,6 +8,8 @@
 #include "conf_iTC.h"
 #include "iTC.h"
 #include "iTC_regs.h"
+#include "gpio.h"
+#include "ioport.h"
 #include <sysclk.h>
 #include <ioport.h>
 #include <delay.h>
@@ -528,6 +530,8 @@ static void itc_controller_init_registers(void)
  */
 static void itc_reset_display(void)
 {
+	gpio_configure_pin(SPI_MOSI_GPIO, SPI_MOSI_FLAGS);
+	
 	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, true);
 	delay_ms(5);
 	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, false);
@@ -553,7 +557,8 @@ static void itc_power_off(void) {
 	ioport_set_pin_level(CONF_ITC_RESET_PIN, false);
 	ioport_set_pin_level(CONF_ITC_DC_PIN, false);
 	ioport_set_pin_level(CONF_ITC_DISCHARGE_PIN, true);
-	//itc_select_chip();
+	itc_select_chip();
+	gpio_configure_pin(SPI_MOSI_GPIO, SPI_MOSI_FORCE_OUT_FLAGS);
 	
 }
 

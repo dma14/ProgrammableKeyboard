@@ -324,6 +324,7 @@
 /** SPI MOSI pin definition. */
 #define SPI_MOSI_GPIO  (PIO_PA13_IDX)
 #define SPI_MOSI_FLAGS (PIO_PERIPH_A | PIO_DEFAULT)
+#define SPI_MOSI_FORCE_OUT_FLAGS (PIO_OUTPUT_0)
 /** SPI SPCK pin definition. */
 #define SPI_SPCK_GPIO  (PIO_PA14_IDX)
 #define SPI_SPCK_FLAGS (PIO_PERIPH_A | PIO_DEFAULT)
